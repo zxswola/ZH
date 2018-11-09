@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{58D69BDA-CF71-41DA-8AED-0161C06D6B61}</ProjectGuid>
+    <ProjectGuid>{07AD8B1F-1FB9-435F-B953-4B15CB7573F4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Service</RootNamespace>
@@ -41,15 +41,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NewsService.cs" />
+    <Compile Include="Entities\AdminUserEntity.cs" />
+    <Compile Include="Entities\AttachmentEntity.cs" />
+    <Compile Include="Entities\BaseEntity.cs" />
+    <Compile Include="Entities\CitiyEntity.cs" />
+    <Compile Include="Entities\CommunityEntity.cs" />
+    <Compile Include="Entities\HouseAppointments.cs" />
+    <Compile Include="Entities\HouseEntity.cs" />
+    <Compile Include="Entities\HousePicEntity.cs" />
+    <Compile Include="Entities\IdNameEntity.cs" />
+    <Compile Include="Entities\PermissionEntity.cs" />
+    <Compile Include="Entities\RegionEntity.cs" />
+    <Compile Include="Entities\RoleEntity.cs" />
+    <Compile Include="Entities\SettingEntity.cs" />
+    <Compile Include="Entities\UserEntity.cs" />
+    <Compile Include="ModelConfig\SettingConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserService.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\IService\IService.csproj">
-      <Project>{7e2b993d-5e1f-49d8-aeef-bbf602dc0247}</Project>
-      <Name>IService</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
