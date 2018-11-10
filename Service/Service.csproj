@@ -31,7 +31,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,12 +48,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\AdminLogEntity.cs" />
     <Compile Include="Entities\AdminUserEntity.cs" />
     <Compile Include="Entities\AttachmentEntity.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
-    <Compile Include="Entities\CitiyEntity.cs" />
+    <Compile Include="Entities\CityEntity.cs" />
     <Compile Include="Entities\CommunityEntity.cs" />
-    <Compile Include="Entities\HouseAppointments.cs" />
+    <Compile Include="Entities\HouseAppointmentEntity.cs" />
     <Compile Include="Entities\HouseEntity.cs" />
     <Compile Include="Entities\HousePicEntity.cs" />
     <Compile Include="Entities\IdNameEntity.cs" />
@@ -55,9 +63,25 @@
     <Compile Include="Entities\RoleEntity.cs" />
     <Compile Include="Entities\SettingEntity.cs" />
     <Compile Include="Entities\UserEntity.cs" />
+    <Compile Include="ModelConfig\AdminLogConfig.cs" />
+    <Compile Include="ModelConfig\AdminUserConfig.cs" />
+    <Compile Include="ModelConfig\AttachmentConfig.cs" />
+    <Compile Include="ModelConfig\CityConfig.cs" />
+    <Compile Include="ModelConfig\CommunityConfig.cs" />
+    <Compile Include="ModelConfig\HouseAppointmentConfig.cs" />
+    <Compile Include="ModelConfig\HouseConfig.cs" />
+    <Compile Include="ModelConfig\HousePicConfig.cs" />
+    <Compile Include="ModelConfig\IdNameConfig.cs" />
+    <Compile Include="ModelConfig\PermissionConfig.cs" />
+    <Compile Include="ModelConfig\RegionConfig.cs" />
+    <Compile Include="ModelConfig\RoleConfig.cs" />
     <Compile Include="ModelConfig\SettingConfig.cs" />
+    <Compile Include="ModelConfig\UserConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

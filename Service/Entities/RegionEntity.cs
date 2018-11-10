@@ -10,6 +10,6 @@ namespace Service.Entities
     {
         public string Name { get; set; }
         public long CityId { get; set; }
-        public virtual CitiyEntity City { get; set; }
+        public virtual CityEntity City { get; set; }
     }
 }

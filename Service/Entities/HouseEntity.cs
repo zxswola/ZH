@@ -23,7 +23,7 @@ namespace Service.Entities
         public long DecorateStatusId { get; set; }
         public virtual IdNameEntity DescorateStatus { get; set; }
         public int TotalFloorCount { get; set; }
-        public int floorIndex { get; set; }
+        public int FloorIndex { get; set; }
         public long TypeId { get; set; }
         public virtual IdNameEntity Type { get; set; }
         public string Direction { get; set; }

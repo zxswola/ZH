@@ -14,7 +14,7 @@ namespace Service.Entities
         public string PasswordHash { get; set; }
         public string Email { get; set; }
         public long? CityId { get; set; }
-        public virtual CitiyEntity City { get; set; }
+        public virtual CityEntity City { get; set; }
         public int LoginErrorTimes { get; set; }
         public DateTime? LastLoginErrorDateTime { get; set; }
         public virtual ICollection<RoleEntity> Roles { get; set; } = new List<RoleEntity>();

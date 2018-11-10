@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Service.Entities
 {
-    public class CitiyEntity:BaseEntity
+    public class CityEntity:BaseEntity
     {
         public string Name { get; set; }
 
