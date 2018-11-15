@@ -16,6 +16,7 @@ using MyIBLL;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Spi;
+using Service;
 
 namespace Test
 {
@@ -47,7 +48,7 @@ namespace Test
             //            {
             //                ms.CopyTo(fs);
             //            }
-            log4net.Config.XmlConfigurator.Configure();
+            //log4net.Config.XmlConfigurator.Configure();
             //           ILog log= LogManager.GetLogger(typeof(Program));
             //            log.Debug("飞行高度10000米");
             //            log.Warn("youya");
@@ -64,13 +65,20 @@ namespace Test
             //            IUserBll bll = new UserBll();
             //            bll.AddNew("aaa", "123");
 
-            ContainerBuilder builder = new ContainerBuilder();
-            //builder.RegisterType<UserBll>().As<IUserBll>();//注册实现类 Service1，当请求 IService1 接
-            Assembly ams = Assembly.Load("MyBLL");
-            builder.RegisterAssemblyTypes(ams).AsImplementedInterfaces();
-            IContainer container= builder.Build();
-            IUserBll bll = container.Resolve<IUserBll>();
-            bll.AddNew("aa", "222");
+            //ContainerBuilder builder = new ContainerBuilder();
+            ////builder.RegisterType<UserBll>().As<IUserBll>();//注册实现类 Service1，当请求 IService1 接
+            //Assembly ams = Assembly.Load("MyBLL");
+            //builder.RegisterAssemblyTypes(ams).AsImplementedInterfaces();
+            //IContainer container= builder.Build();
+            //IUserBll bll = container.Resolve<IUserBll>();
+            //bll.AddNew("aa", "222");
+            //using (MyDbContext ctx = new MyDbContext())
+            //{
+            //    ctx.Database.Delete();
+            //    ctx.Database.Create();
+            //}
+
+
             Console.WriteLine("ok");
             Console.ReadKey();
 

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7E2B993D-5E1F-49D8-AEEF-BBF602DC0247}</ProjectGuid>
+    <ProjectGuid>{AAAD3EC0-C0A6-4749-AE28-9E5091423764}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>IService</RootNamespace>
@@ -41,9 +41,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="INewsService.cs" />
+    <Compile Include="IAdminUserService.cs" />
+    <Compile Include="IAdminLogService.cs" />
+    <Compile Include="IAttachmentService.cs" />
+    <Compile Include="ICityService.cs" />
+    <Compile Include="ICommunityService.cs" />
+    <Compile Include="IHouseAppointmentService.cs" />
+    <Compile Include="IHouseService.cs" />
+    <Compile Include="IPermissionService.cs" />
+    <Compile Include="IRegionService.cs" />
+    <Compile Include="IRoleService.cs" />
+    <Compile Include="IServiceSupport.cs" />
+    <Compile Include="ISettingService.cs" />
     <Compile Include="IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DTO\DTO.csproj">
+      <Project>{51f9e007-f317-4eb5-8967-ea795ee64d35}</Project>
+      <Name>DTO</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

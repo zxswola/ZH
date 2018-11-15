@@ -1,8 +1,15 @@
-﻿namespace IService
+﻿using DTO;
+
+namespace IService
 {
-    public interface IUserService
+    public interface IUserService:IServiceSupport
     {
-        bool CheckLogin(string userName, string password);
-        bool CheckUserNameExists(string userName);
+        long AddNew(string phoneNum, string password);
+        UserDTO GetById(long id);
+        UserDTO GetByPhoneNum(string phoneNum);
+        bool CheckLogin(string phoneNum, string password);
+        void UpdatePwd(long userId, string newPassword);
+        void SetUserCityId(long userId, long cityId);
+
     }
 }
