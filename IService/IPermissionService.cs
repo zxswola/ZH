@@ -4,6 +4,7 @@ namespace IService
 {
     public interface IPermissionService:IServiceSupport
     {
+        long AddPermission(string perName, string descript);
         PermissionDTO GetById(long id);
         PermissionDTO[] GetAll();
         //根据权限名称 获取权限

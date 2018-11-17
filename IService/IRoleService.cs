@@ -8,9 +8,14 @@ namespace IService
         void Update(long roleId, string roleName);
         void MarkDeleted(long id);
         RoleDTO GetById(long id);
-        RoleDTO GetByName(long id);
+        RoleDTO GetByName(string name);
         RoleDTO[] GetAll();
-        //给 adminUser增加权限
+
+        /// <summary>
+        /// 给 adminUser增加权限
+        /// </summary>
+        /// <param name="adminUserId"></param>
+        /// <param name="roleIds"></param>
         void AddRoles(long adminUserId, long[] roleIds);
         //更新权限,先删除再添加
         void UpdateRoleIds(long adminUserId, long[] roleIds);

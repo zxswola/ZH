@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,42 +33,134 @@ namespace Service
 
         public void AddRoles(long adminUserId, long[] roleIds)
         {
-            throw new NotImplementedException();
+            using (MyDbContext ctx = new MyDbContext())
+            {
+                BaseService<AdminUserEntity> bs = new BaseService<AdminUserEntity>(ctx);
+                var  adminUser= bs.GetById(adminUserId);
+                if (adminUser==null)
+                {
+                    throw new ArgumentException("用户不存在 ID:" + adminUserId);
+                }
+
+                BaseService<RoleEntity> roleBs = new BaseService<RoleEntity>(ctx);
+                var roles =roleBs.GetAll().Where(r => roleIds.Contains(r.Id)).ToArray();
+                foreach (var r in roles)
+                {
+                    adminUser.Roles.Add(r);
+                }
+
+                ctx.SaveChanges();
+
+            }
+        }
+
+        private RoleDTO ToDTO(RoleEntity role)
+        {
+            RoleDTO dto = new RoleDTO();
+            dto.Name = role.Name;
+            dto.CreateDateTime = role.CreateDateTIme;
+            dto.Id = role.Id;
+            return dto;
         }
 
         public RoleDTO[] GetAll()
         {
-            throw new NotImplementedException();
+
+            using (MyDbContext ctx = new MyDbContext())
+            {
+                BaseService<RoleEntity> bs = new BaseService<RoleEntity>(ctx);
+                return bs.GetAll().ToList().Select(r => ToDTO(r)).ToArray();
+            }
         }
 
         public RoleDTO[] GetByAdminUserId(long adminUserId)
         {
-            throw new NotImplementedException();
+            using (MyDbContext ctx = new MyDbContext())
+            {
+                BaseService<AdminUserEntity> bs = new BaseService<AdminUserEntity>(ctx);
+                var user = bs.GetById(adminUserId);
+                if (user != null)
+                {
+                    throw new ArgumentException("不存在管理员" + adminUserId);
+                }
+
+                return user.Roles.ToList().Select(u => ToDTO(u)).ToArray();
+
+            }
         }
 
         public RoleDTO GetById(long id)
         {
-            throw new NotImplementedException();
+            using (MyDbContext ctx = new MyDbContext())
+            {
+                BaseService<RoleEntity> bs = new BaseService<RoleEntity>(ctx);
+                var role = bs.GetById(id);
+                return role == null?null:ToDTO(role); ;
+            }
         }
 
-        public RoleDTO GetByName(long id)
+        public RoleDTO GetByName(string name)
         {
-            throw new NotImplementedException();
+            using (MyDbContext ctx = new MyDbContext())
+            {
+                BaseService<RoleEntity> bs = new BaseService<RoleEntity>(ctx);
+                var role = bs.GetAll().Where(r=>r.Name==name).SingleOrDefault();
+                return role == null ? null : ToDTO(role); ;
+            }
         }
 
         public void MarkDeleted(long id)
         {
-            throw new NotImplementedException();
+            using (MyDbContext ctx = new MyDbContext())
+            {
+                BaseService<RoleEntity> bs = new BaseService<RoleEntity>(ctx);
+                bs.MarkDeleted(id);
+            }
         }
 
         public void Update(long roleId, string roleName)
         {
-            throw new NotImplementedException();
+            using (MyDbContext ctx = new MyDbContext())
+            {
+                BaseService<RoleEntity> bs = new BaseService<RoleEntity>(ctx);
+                bool exists= bs.GetAll().Any(r => r.Id != roleId&&r.Name==roleName);
+                if (exists)
+                {
+                    throw new ArgumentException("已经存在"+roleName);
+                }
+
+                //RoleEntity role = new RoleEntity();
+                //role.Id = roleId;
+                ////ctx.Entry(role).State = EntityState.Unchanged;
+                //role.Name = roleName;
+                var role = bs.GetById(roleId);
+                role.Name = roleName;
+                ctx.SaveChanges();
+            }
         }
 
         public void UpdateRoleIds(long adminUserId, long[] roleIds)
         {
-            throw new NotImplementedException();
+            using (MyDbContext ctx = new MyDbContext())
+            {
+                BaseService<AdminUserEntity> bs = new BaseService<AdminUserEntity>(ctx);
+                var adminUser = bs.GetById(adminUserId);
+                if (adminUser == null)
+                {
+                    throw new ArgumentException("用户不存在 ID:" + adminUserId);
+                }
+
+                adminUser.Roles.Clear();
+                BaseService<RoleEntity> roleBs = new BaseService<RoleEntity>(ctx);
+                var roles = roleBs.GetAll().Where(r => roleIds.Contains(r.Id)).ToArray();
+                foreach (var r in roles)
+                {
+                    adminUser.Roles.Add(r);
+                }
+
+                ctx.SaveChanges();
+
+            }
         }
     }
 }

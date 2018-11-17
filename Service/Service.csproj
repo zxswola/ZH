@@ -51,6 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminLogService.cs" />
+    <Compile Include="AdminUserService.cs" />
     <Compile Include="BaseService.cs" />
     <Compile Include="CityService.cs" />
     <Compile Include="CommunityService.cs" />
@@ -84,9 +86,12 @@
     <Compile Include="ModelConfig\SettingConfig.cs" />
     <Compile Include="ModelConfig\UserConfig.cs" />
     <Compile Include="MyDbContext.cs" />
+    <Compile Include="PermissionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegionService.cs" />
     <Compile Include="RoleService.cs" />
+    <Compile Include="SettingService.cs" />
+    <Compile Include="UserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -11,8 +11,6 @@ using CodeCarvings.Piczard;
 using CodeCarvings.Piczard.Filters.Watermarks;
 using Common;
 using log4net;
-using MyBLL;
-using MyIBLL;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Spi;
@@ -77,7 +75,7 @@ namespace Test
             //    ctx.Database.Delete();
             //    ctx.Database.Create();
             //}
-
+            //new AdminLogService().AddNew(1, "测试消息");
 
             Console.WriteLine("ok");
             Console.ReadKey();
