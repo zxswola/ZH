@@ -60,7 +60,7 @@ namespace Service
         {
             AdminUserDTO dto = new AdminUserDTO();
             dto.CityId = adminUser.CityId;
-            if (adminUser.City.Name != null)
+            if (adminUser.City != null)
             {
                 dto.CityName = adminUser.City.Name;
             }
@@ -69,6 +69,7 @@ namespace Service
                 dto.CityName = "总部";
             }
 
+            dto.Id = adminUser.Id;
             dto.CreateDateTime = adminUser.CreateDateTIme;
             dto.Email = adminUser.Email;
             dto.LastLoginErrorDateTime = adminUser.LastLoginErrorDateTime;
@@ -115,13 +116,26 @@ namespace Service
             using (MyDbContext ctx = new MyDbContext())
             {
                 BaseService<AdminUserEntity> bs = new BaseService<AdminUserEntity>(ctx);
-                var user = bs.GetAll().Include(u => u.City).SingleOrDefault(u => u.PhoneNum == phoneNum);
-                if (user == null)
+                var users = bs.GetAll().Include(u => u.City).AsNoTracking().Where(u => u.PhoneNum == phoneNum);
+                //if (user == null)
+                //{
+                //    return null;
+                //}
+
+                //return ToDto(user);
+                int count = users.Count();
+                if (count <= 0)
                 {
                     return null;
                 }
-
-                return ToDto(user);
+                else if (count == 1)
+                {
+                    return ToDto(users.Single());
+                }
+                else
+                {
+                    throw new Exception("找到多个手机号为" + phoneNum + "的管理员");
+                }
             }
         }
 
@@ -159,6 +173,16 @@ namespace Service
             throw new NotImplementedException();
         }
 
+        public AdminUserDTO[] GetPageData(int pageSize, int index)
+        {
+            using (MyDbContext ctx = new MyDbContext())
+            {
+                BaseService<AdminUserEntity> bs = new BaseService<AdminUserEntity>(ctx);
+                var users = bs.GetAll().Include(u => u.City).OrderBy(u=>u.Id).Skip((index - 1) * pageSize).Take(pageSize);
+                return users.ToList().Select(u => ToDto(u)).ToArray();
+            }
+        }
+
         public void UpdateAdminUser(long id, string name, string phoneNum, string password, string email, long? cityId)
         {
             using (MyDbContext ctx = new MyDbContext())
@@ -171,14 +195,62 @@ namespace Service
                 }
                 user.Name = name;
                 user.PhoneNum = phoneNum;
-                string passwordSalt =user.PasswordSalt;
-                string passwordHash = CommonHelper.CalcMD5(passwordSalt + password);
-                user.PasswordHash = passwordHash;
+                if (!string.IsNullOrEmpty(password))
+                {
+                    string passwordSalt = user.PasswordSalt;
+                    string passwordHash = CommonHelper.CalcMD5(passwordSalt + password);
+                    user.PasswordHash = passwordHash;
+                }
                 user.Email = email;
                 user.CityId = cityId;
                 ctx.SaveChanges();
               
             }
+        }
+
+        public int AddAdminUser(string name, string userName, string password, string email,string phoneNum)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateAdminUser(int id, string name, string userName, string password, string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public AdminUserDTO GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public AdminUserDTO GetByUserName(string userName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MarkDeleted(int adminUserId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool HasPermission(int adminUserId, string permissionName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RecordLoginError(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ResetLoginError(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateAdminUser(int id, string name, string userName, string password, string email, string phoneNum)
+        {
+            throw new NotImplementedException();
         }
     }
 }

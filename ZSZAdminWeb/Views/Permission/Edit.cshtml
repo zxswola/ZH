@@ -1,0 +1,37 @@
+﻿@model DTO.PermissionDTO
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form id="formEdit">
+    <input type="hidden"  value="@Model.Id" name="id"  /><br />
+    Name:<input type="text" value="@Model.Name" name="name"  /><br />
+    desription:<input type="text" value="@Model.Description" name="description"  />
+    <input type="button" value="提交" id="btnSave" />
+</form>
+@section FooterScript
+{
+    <script type="text/javascript">
+        $(function() {
+            $("#btnSave").click(function () {
+                var formData = $("#formEdit").serializeArray();
+                $.ajax({
+                    url: "/Permission/Edit",
+                    type: "post",
+                    //data: {id:$("#id").val(), name: $("#name").val(), description: $("#description").val() },
+                    data: formData,
+                    dataType: "json",
+                    success: function(res) {
+                        if (res.status == "ok") {
+                            parent.location.reload();
+                        } else {
+                            alert("error");
+                        }
+                    }
+
+                });
+            });
+        });
+    </script>
+}

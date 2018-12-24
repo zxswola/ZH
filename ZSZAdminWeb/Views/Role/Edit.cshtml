@@ -1,0 +1,46 @@
+﻿@model ZSZAdminWeb.Models.RoleEditGetModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form id="formEdit">
+    <input type="hidden" value="@Model.Role.Id" name="id" /><br />
+    Name:<input type="text" value="@Model.Role.Name" name="name" /><br />
+    <div class="row cl">
+        @foreach (var per in Model.AllPers)
+        {
+            <div class="col-xs-12 col-sm-3">
+                <input type="checkbox" checked="@Model.RolePers.Select(p=>p.Id).Contains(per.Id)"  id="PermissionIds_@per.Id" name="PermissionIds" value="@per.Id" />
+                <label for="PermissionIds_@per.Id">@per.Description</label>
+            </div>
+        }
+    </div>
+    <input type="button" value="提交" id="btnSave" />
+</form>
+@section FooterScript
+{
+    <script type="text/javascript">
+        $(function() {
+            $("#btnSave").click(function () {
+                var formData = $("#formEdit").serializeArray();
+                $.ajax({
+                    url: "/Role/Edit",
+                    type: "post",
+                    //data: {id:$("#id").val(), name: $("#name").val(), description: $("#description").val() },
+                    data: formData,
+                    dataType: "json",
+                    success: function(res) {
+                        if (res.status == "ok") {
+                            parent.location.reload();
+                        } else {
+                            alert("error");
+                        }
+                    }
+
+                });
+            });
+        });
+    </script>
+}
+

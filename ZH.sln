@@ -9,9 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{07AD8B1F-1FB9-435F-B953-4B15CB7573F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZSZAdminWeb", "ZSZAdminWeb\ZSZAdminWeb.csproj", "{9B60E7A8-8FAA-49FB-B9D5-A064F4D61F4C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZHAdminWeb", "ZSZAdminWeb\ZHAdminWeb.csproj", "{9B60E7A8-8FAA-49FB-B9D5-A064F4D61F4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZSZFrontWeb", "ZSZFrontWeb\ZSZFrontWeb.csproj", "{7C2EE63D-C917-4869-AB87-B5BA2EFABC74}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZHFrontWeb", "ZSZFrontWeb\ZHFrontWeb.csproj", "{7C2EE63D-C917-4869-AB87-B5BA2EFABC74}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonMvc", "CommonMvc\CommonMvc.csproj", "{B8526E5C-8F2E-4F8B-B504-505BBDB1016B}"
 EndProject
@@ -20,6 +20,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IService", "IService\IService.csproj", "{AAAD3EC0-C0A6-4749-AE28-9E5091423764}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceTest", "ServiceTest\ServiceTest.csproj", "{EBA8625E-CB2B-4666-872A-4BA13465B31B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DapperService", "DapperService\DapperService.csproj", "{1178E8CA-0528-49EB-8DA0-235FCB73B2AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{EBA8625E-CB2B-4666-872A-4BA13465B31B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBA8625E-CB2B-4666-872A-4BA13465B31B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EBA8625E-CB2B-4666-872A-4BA13465B31B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1178E8CA-0528-49EB-8DA0-235FCB73B2AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1178E8CA-0528-49EB-8DA0-235FCB73B2AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1178E8CA-0528-49EB-8DA0-235FCB73B2AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1178E8CA-0528-49EB-8DA0-235FCB73B2AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

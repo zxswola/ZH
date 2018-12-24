@@ -1,0 +1,56 @@
+﻿@model DTO.PermissionDTO[]
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<form id="formAdd">
+    <div class="row cl">
+        <label class="form-label col-3"><span class="c-red">*</span>角色名：</label>
+        <div class="formControls col-5">
+            <input type="text" class="input-text" name="name"  datatype="*1-50" nullmsg="角色名称不能为空" />
+        </div>
+        <div class="col-4"> </div>
+    </div>
+    <div class="row cl">
+        @foreach (var per in Model)
+        {
+            <div class="col-xs-12 col-sm-3">
+                <input type="checkbox" id="PermissionIds_@per.Id" name="PermissionIds" value="@per.Id"/>
+                <label for="PermissionIds_@per.Id">@per.Description</label>
+            </div>
+        }
+    </div>
+    <input type="button" id="btnSave" value="保存"/>
+</form>
+
+@section FooterScript
+{
+    <script type="text/javascript">
+        $(function() {
+            var validForm = $("#formAdd").Validform({ tiptype: 2 });
+            $("#btnSave").click(function() {
+                if (validForm.check(false)) {
+                    var formData = $("#formAdd").serializeArray();
+                    $.ajax({
+                        url: "/Role/Add",
+                        type: "post",
+                        data: formData,
+                        dataType: "json",
+                        success: function(res) {
+                            if (res.status == "ok") {
+                                parent.location.reload();
+                            } else {
+                                alert("error");
+                            }
+                        }
+                    });
+                }
+
+            });
+
+        });
+
+
+    </script>
+}
+

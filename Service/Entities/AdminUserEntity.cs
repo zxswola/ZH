@@ -9,6 +9,7 @@ namespace Service.Entities
     public class AdminUserEntity:BaseEntity
     {
         public  string Name { get; set; }
+        public string UserName { get; set; }
         public string PhoneNum { get; set; }
         public string PasswordSalt { get; set; }
         public string PasswordHash { get; set; }
@@ -18,5 +19,8 @@ namespace Service.Entities
         public int LoginErrorTimes { get; set; }
         public DateTime? LastLoginErrorDateTime { get; set; }
         public virtual ICollection<RoleEntity> Roles { get; set; } = new List<RoleEntity>();
+
+        public long UserId { get; set; }
+     
     }
 }

@@ -72,12 +72,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddExpressJob.cs" />
+    <Compile Include="DownloadOrdersJob.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuantityUpdateJob.cs" />
     <Compile Include="TestJob.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -87,6 +93,18 @@
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{f8610af9-a7c5-441f-9123-584cab17ada6}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DapperService\DapperService.csproj">
+      <Project>{1178e8ca-0528-49eb-8da0-235fcb73b2ad}</Project>
+      <Name>DapperService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DTO\DTO.csproj">
+      <Project>{51f9e007-f317-4eb5-8967-ea795ee64d35}</Project>
+      <Name>DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IService\IService.csproj">
+      <Project>{aaad3ec0-c0a6-4749-ae28-9e5091423764}</Project>
+      <Name>IService</Name>
     </ProjectReference>
     <ProjectReference Include="..\Service\Service.csproj">
       <Project>{07ad8b1f-1fb9-435f-b953-4b15cb7573f4}</Project>

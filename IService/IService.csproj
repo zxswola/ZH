@@ -31,6 +31,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=1.40.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.Contrib.Ext.1.0.5\lib\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper.Contrib, Version=1.40.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.Contrib.Ext.1.0.5\lib\Dapper.Contrib.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper.Contrib.Ext, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.Contrib.Ext.1.0.5\lib\Dapper.Contrib.Ext.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper.Extension, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.Extension.1.0.0.1\lib\net45\Dapper.Extension.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,13 +58,17 @@
     <Compile Include="IAttachmentService.cs" />
     <Compile Include="ICityService.cs" />
     <Compile Include="ICommunityService.cs" />
+    <Compile Include="IExpressageService.cs" />
     <Compile Include="IHouseAppointmentService.cs" />
     <Compile Include="IHouseService.cs" />
+    <Compile Include="IOrderService.cs" />
     <Compile Include="IPermissionService.cs" />
     <Compile Include="IRegionService.cs" />
     <Compile Include="IRoleService.cs" />
     <Compile Include="IServiceSupport.cs" />
     <Compile Include="ISettingService.cs" />
+    <Compile Include="IShopService.cs" />
+    <Compile Include="IStoreService.cs" />
     <Compile Include="IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -61,6 +77,9 @@
       <Project>{51f9e007-f317-4eb5-8967-ea795ee64d35}</Project>
       <Name>DTO</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

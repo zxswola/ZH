@@ -79,7 +79,7 @@ namespace Service
             {
                 BaseService<AdminUserEntity> bs = new BaseService<AdminUserEntity>(ctx);
                 var user = bs.GetById(adminUserId);
-                if (user != null)
+                if (user== null)
                 {
                     throw new ArgumentException("不存在管理员" + adminUserId);
                 }
@@ -95,7 +95,7 @@ namespace Service
             {
                 BaseService<RoleEntity> bs = new BaseService<RoleEntity>(ctx);
                 var role = bs.GetById(id);
-                return role == null?null:ToDTO(role); ;
+                return role == null?null:ToDTO(role); 
             }
         }
 
@@ -161,6 +161,41 @@ namespace Service
                 ctx.SaveChanges();
 
             }
+        }
+
+        int IRoleService.AddNew(string roleName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(int roleId, string roleName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MarkDeleted(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public RoleDTO GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddRoles(int adminUserId, int[] roleIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateRoleIds(int adminUserId, int[] roleIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public RoleDTO[] GetByAdminUserId(int adminUserId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

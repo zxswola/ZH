@@ -39,6 +39,7 @@ namespace ZSZFrontWeb
             GlobalFilters.Filters.Add(new ZSZExceptionFilter());
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            GlobalFilters.Filters.Add(new JsonNetActionFilter());
         }
     }
 }

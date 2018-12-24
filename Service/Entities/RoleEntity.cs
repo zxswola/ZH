@@ -8,6 +8,7 @@ namespace Service.Entities
 {
     public class RoleEntity:BaseEntity
     {
+        public int RoleId { get; set; }
         public string Name { get; set; }
 
         public virtual ICollection<PermissionEntity> Permissions { get; set; } = new List<PermissionEntity>();

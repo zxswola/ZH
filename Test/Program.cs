@@ -10,11 +10,14 @@ using CaptchaGen;
 using CodeCarvings.Piczard;
 using CodeCarvings.Piczard.Filters.Watermarks;
 using Common;
+using DapperService;
+using DTO;
+using IService;
 using log4net;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Spi;
-using Service;
+
 
 namespace Test
 {
@@ -51,15 +54,62 @@ namespace Test
             //            log.Debug("飞行高度10000米");
             //            log.Warn("youya");
             //            log.Error("destory");
-            //            IScheduler sched = new StdSchedulerFactory().GetScheduler();
-            //            JobDetailImpl jdBossReport = new JobDetailImpl("jdTest", typeof(TestJob));
-            //            var bulider = CalendarIntervalScheduleBuilder.Create();
-            //            bulider.WithInterval(3, IntervalUnit.Second);//每隔三秒执行一次
-            //            IMutableTrigger triggerBossReport = bulider.Build();
-            //            //IMutableTrigger triggerBossReport = CronScheduleBuilder.DailyAtHourAndMinute(9, 53).Build();//每天 23:45 执行一次
-            //            triggerBossReport.Key = new TriggerKey("triggerTest");
-            //            sched.ScheduleJob(jdBossReport,triggerBossReport);
-            //            sched.Start();
+            log4net.Config.XmlConfigurator.Configure();
+            IScheduler sched = new StdSchedulerFactory().GetScheduler();
+            {
+                JobDetailImpl jdAddExp = new JobDetailImpl("jdAddExp", typeof(AddExpressJob));
+                var bulider = CalendarIntervalScheduleBuilder.Create();
+                bulider.WithInterval(300, IntervalUnit.Second);//每隔60秒执行一次
+                IMutableTrigger triggerAddExp = bulider.Build();
+                //IMutableTrigger triggerBossReport = CronScheduleBuilder.DailyAtHourAndMinute(9, 53).Build();//每天 23:45 执行一次
+                triggerAddExp.Key = new TriggerKey("addExp");
+                sched.ScheduleJob(jdAddExp, triggerAddExp);
+            }
+            {
+                JobDetailImpl jdDownloadOrder = new JobDetailImpl("jdDownloadOrder", typeof(DownloadOrdersJob));
+                var bulider2 = CalendarIntervalScheduleBuilder.Create();
+                bulider2.WithInterval(300, IntervalUnit.Second);//每隔60秒执行一次
+                IMutableTrigger triggerDownloadOrder = bulider2.Build();
+                //IMutableTrigger triggerBossReport = CronScheduleBuilder.DailyAtHourAndMinute(9, 53).Build();//每天 23:45 执行一次
+                triggerDownloadOrder.Key = new TriggerKey("DownloadOrder");
+                sched.ScheduleJob(jdDownloadOrder, triggerDownloadOrder);
+            }
+            {
+                JobDetailImpl jdQuantityUpdate = new JobDetailImpl("jdQuantityUpdate", typeof(QuantityUpdateJob));
+                var bulider3 = CalendarIntervalScheduleBuilder.Create();
+                bulider3.WithInterval(600, IntervalUnit.Second);//每隔60秒执行一次
+                IMutableTrigger triggerQuantityUpdate = bulider3.Build();
+                //IMutableTrigger triggerBossReport = CronScheduleBuilder.DailyAtHourAndMinute(9, 53).Build();//每天 23:45 执行一次
+                triggerQuantityUpdate.Key = new TriggerKey("QuantityUpdate");
+                sched.ScheduleJob(jdQuantityUpdate, triggerQuantityUpdate);
+            }
+            sched.Start();
+         
+
+
+            //YzShopService service = new YzShopService();
+            //string token = service.QueryToken();
+            //var goods = service.GetGoods(token);
+            //var items = service.GetSku_Root(446856109, token);
+
+            //int count = 101;
+            //int count2 = 151;
+            //int a = count % 100 == 0 ? count / 100 : (count / 100) + 1;
+            //int b = count2 % 100 == 0 ? count2 / 100 : (count2 / 100) + 1;
+
+
+
+
+            //IScheduler sched = new StdSchedulerFactory().GetScheduler();
+            //JobDetailImpl jdDownloadOrder = new JobDetailImpl("jdDownloadOrder", typeof(DownloadOrdersJob));
+            //var bulider = CalendarIntervalScheduleBuilder.Create();
+            //bulider.WithInterval(600, IntervalUnit.Second);//每隔60秒执行一次
+            //IMutableTrigger triggerDownloadOrder = bulider.Build();
+            ////IMutableTrigger triggerBossReport = CronScheduleBuilder.DailyAtHourAndMinute(9, 53).Build();//每天 23:45 执行一次
+            //triggerDownloadOrder.Key = new TriggerKey("DownloadOrder");
+            //sched.ScheduleJob(jdDownloadOrder, triggerDownloadOrder);
+            //sched.Start();
+
             //            IUserBll bll = new UserBll();
             //            bll.AddNew("aaa", "123");
 
@@ -76,11 +126,138 @@ namespace Test
             //    ctx.Database.Create();
             //}
             //new AdminLogService().AddNew(1, "测试消息");
+            //IRegionService regionService = new RegionService();
+            //var regions = regionService.GetAll(1);
+            //AdminUserService service = new AdminUserService();
+            //RoleService roleService = new RoleService();
+            //roleService.AddNew("hahahha");
 
-            Console.WriteLine("ok");
+            //roleService.AddRoles(2, new int[] {3, 2});
+            //var list=service.GetAll();
+            //var list2 = service.GetById(1);
+            //roleService.GetByAdminUserId(2);
+            //var list = service.GetAll(name);
+            //service.AddAdminUser("test7", "wweeweewwwqqw", "123456", "","");
+            //service.UpdateAdminUser(7, "moweeeai", "gaiqeeeng", "123123", "wuo@126.com", "333333");
+
+
+
+
+
+
+
+            //获取有赞订单同步至ERP
+            //YzShopService yzService = new YzShopService();
+            //YzOrderService orderService = new YzOrderService();
+            //YzExpressageService expService = new YzExpressageService();
+            //string token = yzService.QueryToken();
+            //if (token != null)
+            //{
+            //    bool flag = true;
+            //    while (flag)
+            //    {
+            //        int pageNo = 1;
+
+            //        OrderRequest or = new OrderRequest()
+            //        {
+            //            start_created = Convert.ToDateTime("2018-12-1 00:00:00"),
+            //            end_created = DateTime.Now,
+            //            page_no = pageNo,
+            //            page_size = 100,
+            //            status = "WAIT_SELLER_SEND_GOODS"
+            //        };
+            //        OrderResponse orders = yzService.GetOrder(or, token);
+            //        if (orders != null)
+            //        {
+            //            if (orders.response.total_results == 0)
+            //            {
+            //                flag = false;
+            //                break;
+            //            }
+
+            //            if (orders.response.total_results > 0 && orders.response.total_results <= 100)
+            //            {
+            //                //100条内 循环完退出
+            //                flag = false;
+            //                foreach (var order in orders.response.full_order_info_list)
+            //                {
+            //                    //if (orderService.QueryOrderIsExit(order.full_order_info.order_info.tid))
+            //                    //{
+            //                    //    continue;
+            //                    //}
+
+            //                    if (order.full_order_info.order_info.status_str == "待发货")
+            //                    {
+            //                        string orderIds = yzService.AddOrder(order);
+            //                        if (!string.IsNullOrEmpty(orderIds))
+            //                        {
+            //                            List<string> listorderId = orderIds.Split(',').ToList();
+            //                            List<string> listOrderId = new List<string>();
+            //                            foreach (var orderId in listorderId)
+            //                            {
+            //                                if (!string.IsNullOrEmpty(orderId))
+            //                                {
+            //                                    //快递中间表没数据
+            //                                    if (!expService.IsExit(orderId))
+            //                                    {
+            //                                        listOrderId.Add(orderId);
+            //                                    }
+            //                                }
+            //                            }
+            //                            if (listOrderId.Count == 0)
+            //                            {
+            //                                continue;
+            //                            }
+            //                            //更新订单来源为有赞
+            //                            orderService.UpdateOrderSourceTypeID(listOrderId);
+            //                            if (listOrderId.Count == 1)
+            //                            {
+            //                                expService.InsertExpressage(listOrderId[0], " ");
+            //                            }
+            //                            else
+            //                            {
+            //                                Dictionary<string, string> dicOrder = new Dictionary<string, string>();
+            //                                foreach (var orderId in listOrderId)
+            //                                {
+            //                                    List<OrderList> orderList = new List<OrderList>();
+            //                                    var listItems = orderService.QueryDTOrder(orderId);
+            //                                    foreach (var itemId in listItems)
+            //                                    {
+            //                                        var ol = order.full_order_info.orders.Where(o => (o.outer_sku_id.Substring(o.outer_sku_id.LastIndexOf("|") + 1, o.outer_sku_id.Length - o.outer_sku_id.LastIndexOf("|") - 1)) == itemId).SingleOrDefault();
+            //                                        orderList.Add(new OrderList { itemid = itemId, oid = ol.oid });
+            //                                    }
+
+            //                                    dicOrder.Add(orderId, CommonHelper.ToJson(orderList));
+
+            //                                }
+            //                                expService.InsertExpressageAll(dicOrder);
+            //                            }
+
+            //                        }
+            //                    }
+            //                }
+            //            }
+            //            else
+            //            {
+            //                pageNo++;
+            //            }
+            //        }
+            //    }
+            //}
+
+
+
+
+            Console.WriteLine("开始同步");
             Console.ReadKey();
 
            
         }
+
+
+  
+
+
+
     }
 }

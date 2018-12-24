@@ -62,7 +62,7 @@ namespace Service
                 var permission = bs.GetAll().SingleOrDefault(p => p.Id == id);
                 if (permission == null)
                 {
-                    throw new ArgumentException("权限不存在,id为" + id);
+                   
                 }
 
                 return ToDto(permission);
@@ -137,6 +137,76 @@ namespace Service
                 ctx.SaveChanges();
                 return permission.Id;
             }
+        }
+
+        public void UpdatePermission(long id, string perName, string descript)
+        {
+            using (MyDbContext ctx = new MyDbContext())
+            {
+                BaseService<PermissionEntity> bs = new BaseService<PermissionEntity>(ctx);
+                var permission = bs.GetById(id);
+                if (permission == null)
+                {
+                    throw  new  ArgumentException("没有此权限 ID:"+id);
+                }
+
+                permission.Name = perName;
+                permission.Description = descript;
+                ctx.SaveChanges();
+
+            }
+        }
+
+        public void MarkDelete(long id)
+        {
+            using (MyDbContext ctx = new MyDbContext())
+            {
+                BaseService<PermissionEntity> bs = new BaseService<PermissionEntity>(ctx);
+                var permission = bs.GetById(id);
+                if (permission == null)
+                {
+                    throw new ArgumentException("没有此权限 ID:" + id);
+                }
+
+                permission.IsDeleted=true;
+                ctx.SaveChanges();
+
+            }
+        }
+
+        int IPermissionService.AddPermission(string perName, string descript)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdatePermission(int id, string perName, string descript)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MarkDelete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PermissionDTO GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PermissionDTO[] GetByRoleId(int roleId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddPermids(int roleId, int[] permIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdatePermids(int roleId, int[] permIds)
+        {
+            throw new NotImplementedException();
         }
     }
 }

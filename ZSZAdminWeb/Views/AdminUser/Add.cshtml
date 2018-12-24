@@ -1,0 +1,124 @@
+﻿@model  ZSZAdminWeb.Models.AdminUserAddViewModel
+@{
+    ViewBag.Title = "新增管理员";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="pd-20">
+    <form  class="form form-horizontal" id="form-admin-add">
+        <div class="row cl">
+            <label class="form-label col-3"><span class="c-red">*</span>真实姓名：</label>
+            <div class="formControls col-5">
+                <input type="text" class="input-text" id="name" name="name" datatype="*2-16" nullmsg="真实姓名不能为空">
+            </div>
+            <div class="col-4"> </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-3"><span class="c-red">*</span>用户名：</label>
+            <div class="formControls col-5">
+                <input type="text" class="input-text" value="" placeholder="" id="userName" name="userName" datatype="*6-10" nullmsg="用户名不能为空">
+            </div>
+            <div class="col-4"> </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-3"><span class="c-red">*</span>密码：</label>
+            <div class="formControls col-5">
+                <input type="password" name="password" class="input-text" datatype="*6-20" nullmsg="密码不能为空" errormsg="密码长度最少6位,最多20位！">
+            </div>
+            <div class="col-4"> </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-3"><span class="c-red">*</span>确认密码：</label>
+            <div class="formControls col-5">
+                <input type="password" name="password2" class="input-text " errormsg="您两次输入的新密码不一致！" datatype="*6-10" nullmsg="请再输入一次新密码！" recheck="password">
+            </div>
+            <div class="col-4"> </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-3"><span class="c-red">*</span>手机号码：</label>
+            <div class="formControls col-5">
+                <input type="text" class="input-text" name="phoneNum" id="phoneNum" datatype="m" nullmsg="请输入手机号码！">
+            </div>
+            <div class="col-4"> </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-3"><span class="c-red">*</span>邮箱：</label>
+            <div class="formControls col-5">
+                <input type="text" class="input-text" name="email" id="email" datatype="e" nullmsg="请输入邮箱！">
+            </div>
+            <div class="col-4"> </div>
+        </div>
+        @*<div class="row cl">
+            <label class="form-label col-3">城市：</label>
+            <div class="formControls col-5">
+                <span class="select-box" style="width:150px;">
+                    @Html.DropDownList("cityId", new SelectList(Model.Cities, "Id", "Name"), new { @class = "select" })
+                </span>
+            </div>
+        </div>*@
+        <div class="row cl" >
+           
+                @foreach (var role in Model.Roles)
+                {
+                    <div class="col-xs-12 col-sm-3">
+                    <input  type="checkbox" id="RoleIds_@role.Id" name="RoleIds" value="@role.Id"/>
+                        <label for="RoleIds_@role.Id">@role.Name</label>
+                    </div>
+                }
+               
+           
+        </div>
+
+
+        <div class="row cl">
+            <div class="col-9 col-offset-5">
+                <input class="btn btn-primary radius" id="btnSave" type="button" value="&nbsp;&nbsp;保存&nbsp;&nbsp;">
+            </div>
+        </div>
+    </form>
+</div>
+@section FooterScript
+{
+    <script type="text/javascript">
+        $(function() {
+            var validForm = $("#form-admin-add").Validform({ tiptype: 2 });
+            $("#btnSave").click(function() {
+                if (validForm.check(false)) {
+                    var formData = $("#form-admin-add").serializeArray();
+                    $.ajax({
+                        url: "/AdminUser/Add",
+                        type: "post",
+                        dataType: "json",
+                        data: formData,
+                        success: function(res) {
+                            if (res.status == "ok") {
+                                parent.location.reload();
+                            } else {
+                                alert(res.errorMsg);
+                            }
+                        }
+                    });
+                }
+            });
+            //检查手机号码是否被注册
+            $("#userName").blur(function() {
+                var userName = $(this).val();
+                if (userName.length <= 0) {
+                    return;
+                }
+                $.ajax({
+                    url: "/AdminUser/CheckUserName",
+                    type: "post",
+                    dataType: "json",
+                    data: { userName: userName },
+                    success: function(res) {
+                        if (res.status == "exists") {
+                            layer.msg('这个用户名已经被其他人使用了!', { icon: 2, time: 2000 });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
+
