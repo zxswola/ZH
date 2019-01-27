@@ -34,6 +34,9 @@
     <Reference Include="Dapper, Version=1.50.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.1.50.5\lib\net451\Dapper.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -55,19 +58,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminUserService.cs" />
+    <Compile Include="Entities\LinkEntity.cs" />
+    <Compile Include="ExpressageService.cs" />
+    <Compile Include="BbShopService.cs" />
     <Compile Include="DbFactory.cs" />
     <Compile Include="Entities\AdminUserEntity.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\PermissionEntity.cs" />
     <Compile Include="Entities\RoleEntity.cs" />
+    <Compile Include="LinkService.cs" />
     <Compile Include="YzExpressageService.cs" />
     <Compile Include="PermissionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegionService.cs" />
     <Compile Include="RoleService.cs" />
-    <Compile Include="YzOrderService.cs" />
+    <Compile Include="OrderService.cs" />
     <Compile Include="YzShopService.cs" />
-    <Compile Include="YzStoreService.cs" />
+    <Compile Include="StoreService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

@@ -11,11 +11,11 @@ namespace Common
 {
     public class HttpHepler
     {
-        private static string appkey = System.Configuration.ConfigurationManager.AppSettings["zh_appkey"];
-        private static string appsecret = System.Configuration.ConfigurationManager.AppSettings["zh_appsecret"];
+        //private static string appkey = System.Configuration.ConfigurationManager.AppSettings["zh_appkey"];
+        //private static string appsecret = System.Configuration.ConfigurationManager.AppSettings["zh_appsecret"];
         private static string url = System.Configuration.ConfigurationManager.AppSettings["zh_url"];
 
-        public static string UrlResponseByPost(string method, SortedDictionary<string, string> dic)
+        public static string UrlResponseByPost(string method, SortedDictionary<string, string> dic,string appkey,string appsecret)
         {
             dic.Add("appkey", appkey);
             dic.Add("method", method);

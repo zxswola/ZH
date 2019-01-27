@@ -1,0 +1,80 @@
+﻿@model ZSZFrontWeb.Models.LinkModel
+@{
+    ViewBag.Title = "年会盛典";
+}
+<form id="linkList">
+    <div>
+        <img class="bigImg" src='~/images/大纲.jpg' />
+        @foreach (var link in Model.Links)
+        {
+            <a  href="@link.Link">
+                <img class="smallImg" src='~/images/@link.ImageName' />
+            </a>
+        }
+    </div>
+</form>
+
+@section FooterScript
+{
+    <script>
+        (function () {
+            changeFont();
+            $(window).resize(function () {
+                changeFont();
+            });
+        })();
+        function changeFont() {
+            var wid = $(window).width();
+            var fontSize = wid * (100 / 640);
+            $("html").css({
+                "fontSize": fontSize,
+            });
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 625%;
+            height: 100%;
+            height: 100%;
+            overflow-y: scroll;
+        }
+
+        body {
+            min-width: 320px;
+            height: 100%;
+            margin: 0 auto;
+            position: relative;
+            font-family: "微软雅黑", Helvetica, Arial, sans-serif;
+            font-size: .16rem;
+        }
+
+        a {
+            text-decoration: none;
+            width: 33.33%;
+            display: block;
+            float: left;
+        }
+
+        img {
+            border: none;
+            vertical-align: bottom;
+            width: 100%;
+        }
+
+        .smallImg {
+            width: 100%;
+            height: 2.53rem;
+        }
+
+        .bigImg {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+}
+

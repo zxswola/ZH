@@ -14,7 +14,7 @@ namespace Test
     public class QuantityUpdateJob : IJob
     {
         private YzShopService shopService = new YzShopService();
-        private YzStoreService storeService = new YzStoreService();
+        private StoreService storeService = new StoreService();
         private string token = string.Empty;
         private BasicModel bm = new BasicModel();
         private List<string> listStockCk = new List<string>();

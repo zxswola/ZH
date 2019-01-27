@@ -57,9 +57,9 @@ namespace IService
         /// <returns></returns>
         string SendRequest(string url, string method, IDictionary<string, string> apiParams,
             List<KeyValuePair<string, string>> files);
-
-        string AddOrder(Full_order_info_listItem OrderItem);
-
+        //有赞增加订单
+        string AddOrder(Full_order_info_listItem orderItem);
+     
         List<string> GetWaitSendOid(string token);
 
         int GetAllGoodsCount(string token);

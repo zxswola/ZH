@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace Test
 {
     class Program
     {
-        static void Main(string[] args)
+        static  void Main(string[] args)
         {
             //            string s = CommonHelper.CreateVerifyCode(4);
             //            ImageProcessingJob job = new ImageProcessingJob();
@@ -55,36 +56,42 @@ namespace Test
             //            log.Warn("youya");
             //            log.Error("destory");
             log4net.Config.XmlConfigurator.Configure();
-            IScheduler sched = new StdSchedulerFactory().GetScheduler();
-            {
-                JobDetailImpl jdAddExp = new JobDetailImpl("jdAddExp", typeof(AddExpressJob));
-                var bulider = CalendarIntervalScheduleBuilder.Create();
-                bulider.WithInterval(300, IntervalUnit.Second);//每隔60秒执行一次
-                IMutableTrigger triggerAddExp = bulider.Build();
-                //IMutableTrigger triggerBossReport = CronScheduleBuilder.DailyAtHourAndMinute(9, 53).Build();//每天 23:45 执行一次
-                triggerAddExp.Key = new TriggerKey("addExp");
-                sched.ScheduleJob(jdAddExp, triggerAddExp);
-            }
-            {
-                JobDetailImpl jdDownloadOrder = new JobDetailImpl("jdDownloadOrder", typeof(DownloadOrdersJob));
-                var bulider2 = CalendarIntervalScheduleBuilder.Create();
-                bulider2.WithInterval(300, IntervalUnit.Second);//每隔60秒执行一次
-                IMutableTrigger triggerDownloadOrder = bulider2.Build();
-                //IMutableTrigger triggerBossReport = CronScheduleBuilder.DailyAtHourAndMinute(9, 53).Build();//每天 23:45 执行一次
-                triggerDownloadOrder.Key = new TriggerKey("DownloadOrder");
-                sched.ScheduleJob(jdDownloadOrder, triggerDownloadOrder);
-            }
-            {
-                JobDetailImpl jdQuantityUpdate = new JobDetailImpl("jdQuantityUpdate", typeof(QuantityUpdateJob));
-                var bulider3 = CalendarIntervalScheduleBuilder.Create();
-                bulider3.WithInterval(600, IntervalUnit.Second);//每隔60秒执行一次
-                IMutableTrigger triggerQuantityUpdate = bulider3.Build();
-                //IMutableTrigger triggerBossReport = CronScheduleBuilder.DailyAtHourAndMinute(9, 53).Build();//每天 23:45 执行一次
-                triggerQuantityUpdate.Key = new TriggerKey("QuantityUpdate");
-                sched.ScheduleJob(jdQuantityUpdate, triggerQuantityUpdate);
-            }
-            sched.Start();
-         
+            //IScheduler sched = new StdSchedulerFactory().GetScheduler();
+            //{
+            //    JobDetailImpl jdAddExp = new JobDetailImpl("jdAddExp", typeof(AddExpressJob));
+            //    var bulider = CalendarIntervalScheduleBuilder.Create();
+            //    bulider.WithInterval(300, IntervalUnit.Second);//每隔60秒执行一次
+            //    IMutableTrigger triggerAddExp = bulider.Build();
+            //    //IMutableTrigger triggerBossReport = CronScheduleBuilder.DailyAtHourAndMinute(9, 53).Build();//每天 23:45 执行一次
+            //    triggerAddExp.Key = new TriggerKey("addExp");
+            //    sched.ScheduleJob(jdAddExp, triggerAddExp);
+            //}
+            //{
+            //    JobDetailImpl jdDownloadOrder = new JobDetailImpl("jdDownloadOrder", typeof(DownloadOrdersJob));
+            //    var bulider2 = CalendarIntervalScheduleBuilder.Create();
+            //    bulider2.WithInterval(300, IntervalUnit.Second);//每隔60秒执行一次
+            //    IMutableTrigger triggerDownloadOrder = bulider2.Build();
+            //    //IMutableTrigger triggerBossReport = CronScheduleBuilder.DailyAtHourAndMinute(9, 53).Build();//每天 23:45 执行一次
+            //    triggerDownloadOrder.Key = new TriggerKey("DownloadOrder");
+            //    sched.ScheduleJob(jdDownloadOrder, triggerDownloadOrder);
+            //}
+            //{
+            //    JobDetailImpl jdQuantityUpdate = new JobDetailImpl("jdQuantityUpdate", typeof(QuantityUpdateJob));
+            //    var bulider3 = CalendarIntervalScheduleBuilder.Create();
+            //    bulider3.WithInterval(600, IntervalUnit.Second);//每隔60秒执行一次
+            //    IMutableTrigger triggerQuantityUpdate = bulider3.Build();
+            //    //IMutableTrigger triggerBossReport = CronScheduleBuilder.DailyAtHourAndMinute(9, 53).Build();//每天 23:45 执行一次
+            //    triggerQuantityUpdate.Key = new TriggerKey("QuantityUpdate");
+            //    sched.ScheduleJob(jdQuantityUpdate, triggerQuantityUpdate);
+            //}
+            //sched.Start();
+
+
+
+
+
+
+
 
 
             //YzShopService service = new YzShopService();
@@ -246,16 +253,62 @@ namespace Test
             //}
 
 
+            //HttpClient hc = new HttpClient();
+
+            //Dictionary<string, string> dict = new Dictionary<string, string>();
+            ////dict.Add()
+            //FormUrlEncodedContent content = new FormUrlEncodedContent(dict);
+            //HttpResponseMessage msg = await hc.PostAsync("sssss", content);
+            //MessageBox.Show("响应码" + msg.StatusCode);
+            //string res = await msg.Content.ReadAsStringAsync();
+            //MessageBox.Show(res);
+            //string secret = "eaa9dd6562a78156fe973f74e9dbbe38";
+            //string appId = "epjv";
+            //string session = "82aa50b0163552005c2323152ba54";
+            ////string method = "beibei.outer.logistics.company.get";
+            //string method = "beibei.outer.trade.order.get";
+            //string gateway = "http://api.open.beibei.com/outer_api/out_gateway/route.html";
+            //HttpClient hc = new HttpClient();
+            //Dictionary<string, string> dict = new Dictionary<string, string>();
+            //dict.Add("method", method);
+            //dict.Add("app_id",appId);
+            //dict.Add("session", session);
+            //dict.Add("timestamp",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            //dict.Add("time_range", "pay_time");
+            //dict.Add("start_time", DateTime.Now.AddDays(-27).ToString("yyyy-MM-dd HH:mm:ss"));
+            //dict.Add("end_time", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            //dict.Add("status", "1");
+            //string sing = CommonHelper.BbOpera(dict, secret);
+            //dict.Add("sign", sing);
+            ////dict.Add()
+            //FormUrlEncodedContent content = new FormUrlEncodedContent(dict);
+            //Task<HttpResponseMessage> taskMsg = hc.PostAsync(gateway, content);
+            //HttpResponseMessage msg = taskMsg.Result;
+            //Task<string> taskRead = msg.Content.ReadAsStringAsync();
+            //string res = taskRead.Result;
+            // var companys = CommonHelper.DeJson<BbCompanyResponse>(res);
+
+            //BbShopService bbService = new BbShopService();
+            //var a = bbService.QueryGoods();
+            // var a =  bbService.GetListItem().Result;
+
+            //string strattime = DateTime.Now.AddMonths(-1).ToString("yyyy-MM") + "-25";
+            //string endtime = DateTime.Now.ToString("yyyy-MM") + "-25";
 
 
-            Console.WriteLine("开始同步");
+            //Console.WriteLine("开始同步"+ strattime+"        "+ endtime);
+
+           int a= DateTime.Now.Month;
+            Console.WriteLine(a);
             Console.ReadKey();
 
-           
         }
 
 
-  
+
+
+
+
 
 
 

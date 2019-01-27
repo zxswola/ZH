@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using DTO;
 
 namespace IService
@@ -27,6 +28,8 @@ namespace IService
         /// <param name="outer_tid">外部交易编号</param>
         /// <returns></returns>
         bool AddExpress(string token, string tid, string oids, string out_sid, string out_stype, string outer_tid);
+
+     
 
     }
 }

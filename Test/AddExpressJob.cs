@@ -15,7 +15,7 @@ namespace Test
     public class AddExpressJob : IJob
     {
         private YzShopService shopService = new YzShopService();
-        private YzOrderService orderService = new YzOrderService();
+        private OrderService orderService = new OrderService();
         private YzExpressageService expService = new YzExpressageService();
         private static log4net.ILog log = log4net.LogManager.GetLogger(typeof(AddExpressJob));
         private string successUploadOrders=string.Empty;
@@ -142,7 +142,7 @@ namespace Test
 
                     if (!string.IsNullOrEmpty(successUploadOrders))
                     {
-                        log.Error("已将以下订单同步至有赞"+ successUploadOrders);
+                        log.Debug("===========已将以下订单同步至有赞==========="+ successUploadOrders);
                     }
 
                     if (!string.IsNullOrEmpty(failUploadOrders))

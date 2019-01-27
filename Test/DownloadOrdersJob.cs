@@ -17,7 +17,7 @@ namespace Test
     {
         // 获取有赞订单同步至ERP
         YzShopService yzService = new YzShopService();
-        YzOrderService orderService = new YzOrderService();
+        OrderService orderService = new OrderService();
         YzExpressageService expService = new YzExpressageService();
         log4net.ILog log = log4net.LogManager.GetLogger(typeof(DownloadOrdersJob));
         private int count=0;
@@ -26,7 +26,6 @@ namespace Test
             log.Debug("准备开始有赞订单同步至ERP"+DateTime.Now);
             try
             {
-                
                 DownloadOrders();
                 log.Debug("有赞订单同步至ERP完成"+DateTime.Now);
             }
@@ -104,7 +103,7 @@ namespace Test
                                             continue;
                                         }
                                         //更新订单来源为有赞
-                                        orderService.UpdateOrderSourceTypeID(listOrderId);
+                                        orderService.UpdateOrderSourceTypeID(listOrderId,"030");
                                         if (listOrderId.Count == 1)
                                         {
                                             expService.InsertExpressage(listOrderId[0], " ");
@@ -140,7 +139,7 @@ namespace Test
 
             if (count > 0)
             {
-                log.Debug("有赞订单同步至ERP:" + count + "条数据同步成功");
+                log.Debug("============================有赞订单同步至ERP:" + count + "条数据同步成功==================================");
             }
 
           

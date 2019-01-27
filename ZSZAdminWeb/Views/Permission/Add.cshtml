@@ -3,18 +3,25 @@
     ViewBag.Title = "Add";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<!-- 配置文件 -->
+<script type="text/javascript" src="/lib/ueditor/1.4.3/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="/lib/ueditor/1.4.3/ueditor.all.js"></script>
 
-<form  id="formAdd">
-    名称:<input type="text" name="name" id="name"/>
-    描述:<input type="text" name="description" id="description"/>
-    <input type="button" value="保存" id="btnSave"/>
+
+<form id="formAdd">
+    名称:<input type="text" name="name" id="name" />
+    描述:<input type="text" name="description" id="description" />
+    <script id="container" name="des" type="text/plain">
+    </script>
+    <input type="button" value="保存" id="btnSave" />
 
 </form>
 
 @section FooterScript
 {
     <script type="text/javascript">
-        $(function() {
+        $(function () {
             $("#btnSave").click(function () {
                 var formData = $("#formAdd").serializeArray();
                 $.ajax({
@@ -23,7 +30,7 @@
                     //data: { name: $("#name").val(), description: $("#description").val() },
                     data: formData,
                     dataType: "json",
-                    success: function(res) {
+                    success: function (res) {
                         if (res.status == "ok") {
                             parent.location.reload();
                         } else {
@@ -34,5 +41,9 @@
                 });
             });
         });
+    </script>
+
+    <script type="text/javascript">
+        var ue = UE.getEditor('container');
     </script>
 }

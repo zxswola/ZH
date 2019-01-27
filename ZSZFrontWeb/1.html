@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>年会盛典</title>
+</head>
+<body>
+ 
+<form id="linkList">
+    <div>
+        <img class="bigImg" src='/images/%e5%a4%a7%e7%ba%b2.jpg' />
+            <a  href="http://mp.weixin.qq.com/s?__biz=MjM5MzgwMjk4Nw==&amp;mid=500778688&amp;idx=1&amp;sn=52c9b5b6700715ed3578be7b635621bc&amp;chksm=3ebc994409cb1052331659faecd1eec400bea1be3894a8fd5585ffdbabe37b610cf18d54ce35#rd">
+                <img class="smallImg" src='/images/年会咨询.png' />
+            </a>
+            <a  href="http://mp.weixin.qq.com/s?__biz=MjM5MzgwMjk4Nw==&amp;mid=500778697&amp;idx=1&amp;sn=94a02e0a10d3417db0d53a7f853c9a37&amp;chksm=3ebc994d09cb105b825fc90d5e6dfba74969475f230a1c49a1e729490c3a975c029a4ee98924#rd">
+                <img class="smallImg" src='/images/年会议程.png' />
+            </a>
+            <a  href="http://mp.weixin.qq.com/s?__biz=MjM5MzgwMjk4Nw==&amp;mid=500778700&amp;idx=1&amp;sn=f606ad4d7a6b900daa9a0ea240c64876&amp;chksm=3ebc994809cb105eaa201b91559ff9ff5fcb5a6449f666534b291edb9df73dcd91f36ca07856#rd">
+                <img class="smallImg" src='/images/年会座位.png' />
+            </a>
+            <a  href="http://mp.weixin.qq.com/s?__biz=MjM5MzgwMjk4Nw==&amp;mid=500778727&amp;idx=1&amp;sn=efc7e4b0ba9747fb0d8bf02459a0f3a2&amp;chksm=3ebc996309cb1075847245dcb4c31d8b05436edd1587c6d61f0ec4c9b792241cebcb62d56eaf#rd">
+                <img class="smallImg" src='/images/评优名单.png' />
+            </a>
+            <a  href="http://mp.weixin.qq.com/s?__biz=MjM5MzgwMjk4Nw==&amp;mid=500778704&amp;idx=1&amp;sn=65b1bcb50f1a81cdac91f68e31ddadb0&amp;chksm=3ebc995409cb10425bf8e1745357585a0e3c0fd59d60efcb6d06a00b948dbd5deea1b79b475e#rd">
+                <img class="smallImg" src='/images/餐饮座位.png' />
+            </a>
+            <a  href="http://mp.weixin.qq.com/s?__biz=MjM5MzgwMjk4Nw==&amp;mid=500778694&amp;idx=1&amp;sn=2b760b5aaacb04947a4bbef711785c47&amp;chksm=3ebc994209cb10542705c188e2535526d32ca6c0b2bd3f761f3286ea0591b53d51d3eebe087d#rd">
+                <img class="smallImg" src='/images/晚会节目.png' />
+            </a>
+            <a  href="http://mp.weixin.qq.com/s?__biz=MjM5MzgwMjk4Nw==&amp;mid=500778702&amp;idx=1&amp;sn=d7b6eef9b24ec61c13418fae9c732ef5&amp;chksm=3ebc994a09cb105cc95ade0debe4ff5e5de73c1965608e72c3943e37878de7a0fe392d59463e#rd">
+                <img class="smallImg" src='/images/年会现场.png' />
+            </a>
+            <a  href="http://live.chengguokj.com/nlive/activity?id=e96b50bc0cd14a79a7a9">
+                <img class="smallImg" src='/images/年会视频.png' />
+            </a>
+            <a  href="http://mp.weixin.qq.com/s?__biz=MjM5MzgwMjk4Nw==&amp;mid=500778706&amp;idx=1&amp;sn=ff9d088fb74c88e88befade53ef33939&amp;chksm=3ebc995609cb1040e232dac43df17d14edf308a66d3856508f01925b15719419a776e3af45fd#rd">
+                <img class="smallImg" src='/images/中奖名单.png' />
+            </a>
+    </div>
+</form>
+
+
+
+<script src="/Scripts/jquery-1.10.2.min.js"></script>
+
+    <script>
+        (function () {
+            changeFont();
+            $(window).resize(function () {
+                changeFont();
+            });
+        })();
+        function changeFont() {
+            var wid = $(window).width();
+            var fontSize = wid * (100 / 640);
+            $("html").css({
+                "fontSize": fontSize,
+            });
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 625%;
+            height: 100%;
+            height: 100%;
+            overflow-y: scroll;
+        }
+
+        body {
+            min-width: 320px;
+            height: 100%;
+            margin: 0 auto;
+            position: relative;
+            font-family: "微软雅黑", Helvetica, Arial, sans-serif;
+            font-size: .16rem;
+        }
+
+        a {
+            text-decoration: none;
+            width: 33.33%;
+            display: block;
+            float: left;
+        }
+
+        img {
+            border: none;
+            vertical-align: bottom;
+            width: 100%;
+        }
+
+        .smallImg {
+            width: 100%;
+            height: 2.53rem;
+        }
+
+        .bigImg {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+
+</body>
+</html>

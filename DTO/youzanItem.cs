@@ -251,6 +251,8 @@ namespace DTO
         /// 商品明细信息
         /// </summary>
         public string OrderDTList { get; set; }
+
+        public string ExpressCode { get; set; }
     }
 
     public class OrderList

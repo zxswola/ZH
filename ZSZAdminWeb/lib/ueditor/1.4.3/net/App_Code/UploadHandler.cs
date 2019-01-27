@@ -4,6 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
+using Common;
+using Qiniu.Http;
+using Qiniu.IO;
+using Qiniu.IO.Model;
+using Qiniu.Util;
 
 /// <summary>
 /// UploadHandler 的摘要说明
@@ -63,16 +68,55 @@ public class UploadHandler : Handler
 
         Result.OriginFileName = uploadFileName;
 
-        var savePath = PathFormatter.Format(uploadFileName, UploadConfig.PathFormat);
-        var localPath = Server.MapPath(savePath);
+        //var savePath = PathFormatter.Format(uploadFileName, UploadConfig.PathFormat);
+        //var localPath = Server.MapPath(savePath);
+        //try
+        //{
+        //    if (!Directory.Exists(Path.GetDirectoryName(localPath)))
+        //    {
+        //        Directory.CreateDirectory(Path.GetDirectoryName(localPath));
+        //    }
+        //    File.WriteAllBytes(localPath, uploadFileBytes);
+        //    Result.Url = savePath;
+        //    Result.State = UploadState.Success;
+        //}
+        //catch (Exception e)
+        //{
+        //    Result.State = UploadState.FileAccessError;
+        //    Result.ErrorMessage = e.Message;
+        //}
+        //finally
+        //{
+        //    WriteResult();
+        //}
         try
         {
-            if (!Directory.Exists(Path.GetDirectoryName(localPath)))
-            {
-                Directory.CreateDirectory(Path.GetDirectoryName(localPath));
-            }
-            File.WriteAllBytes(localPath, uploadFileBytes);
-            Result.Url = savePath;
+            string AK = "aYDym1DTzZnCVH6laD7LTV6OyHah2ik3wdCkCy3w";
+            string SK = "rYP-A_bXKtP65_Hx-g7_edM8-_0xF_z0275dG20L";
+            Mac mac = new Mac(AK, SK);
+            //Auth auth = new Auth(mac);
+            string bucket = "mytest";
+            //string saveKey = "1.png";
+            //string localFile = "D:\\1.jpg";
+            // 上传策略，参见 
+            // https://developer.qiniu.com/kodo/manual/put-policy
+            PutPolicy putPolicy = new PutPolicy();
+            // 如果需要设置为"覆盖"上传(如果云端已有同名文件则覆盖)，请使用 SCOPE = "BUCKET:KEY"
+            // putPolicy.Scope = bucket + ":" + saveKey;
+            putPolicy.Scope = bucket;
+            // 上传策略有效期(对应于生成的凭证的有效期)          
+            putPolicy.SetExpires(3600);
+            // 上传到云端多少天后自动删除该文件，如果不设置（即保持默认默认）则不删除
+            putPolicy.DeleteAfterDays = 1;
+            // 生成上传凭证，参见
+            // https://developer.qiniu.com/kodo/manual/upload-token            
+            string jstr = putPolicy.ToJsonString();
+            string token = Auth.CreateUploadToken(mac, jstr);
+            UploadManager um = new UploadManager();
+            //用年月日文件内容md5.文件类型 做文件名
+            string saveKey = DateTime.Now.ToString("yyyy-MM-dd") + "/" + CommonHelper.CalcMD5(uploadFileBytes) + Path.GetExtension(uploadFileName);
+            HttpResult result = um.UploadData(uploadFileBytes, saveKey, token);
+            Result.Url = saveKey;
             Result.State = UploadState.Success;
         }
         catch (Exception e)
@@ -84,6 +128,7 @@ public class UploadHandler : Handler
         {
             WriteResult();
         }
+
     }
 
     private void WriteResult()

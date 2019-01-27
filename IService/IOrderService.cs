@@ -12,7 +12,7 @@ namespace IService
         // 流水号是否存在
         bool QueryOrderIsExit(string sourceOrderId);
         // 修改SourceTypeID
-        bool UpdateOrderSourceTypeID(List<string> str);
+        bool UpdateOrderSourceTypeID(List<string> str,string sourceType);
         string QueryBarcode(string shopItemId);
 
       

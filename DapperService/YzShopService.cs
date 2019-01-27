@@ -21,30 +21,41 @@ namespace DapperService
         private static string client_id = System.Configuration.ConfigurationManager.AppSettings["client_id"];
         private static string client_secret = System.Configuration.ConfigurationManager.AppSettings["client_secret"];
         private static string kdt_id = System.Configuration.ConfigurationManager.AppSettings["kdt_id"];
+
+        private static string appkey = System.Configuration.ConfigurationManager.AppSettings["yz_appkey"];
+        private static string appsecret = System.Configuration.ConfigurationManager.AppSettings["yz_appsecret"];
         private static string TokenFileName = "token.json";
         private static string TokenFilePath = System.AppDomain.CurrentDomain.BaseDirectory + TokenFileName;
-        private YzOrderService orderService = new YzOrderService();
+        private OrderService orderService = new OrderService();
         public List<ItemsItem> GetGoods(string token)
         {
-            var count = GetAllGoodsCount(token);
-            //每页300条数据的话共有几页数据
-            var pageAll = (int)Math.Ceiling((double)count / 300);
-            List<ItemsItem> listSkusItem = new List<ItemsItem>();
-            if (pageAll > 0)
+            try
             {
-                for (int i = 1; i <= pageAll;i++)
+                var count = GetAllGoodsCount(token);
+                //每页300条数据的话共有几页数据
+                var pageAll = (int)Math.Ceiling((double)count / 300);
+                List<ItemsItem> listSkusItem = new List<ItemsItem>();
+                if (pageAll > 0)
                 {
-                    Auth auth = new Token(token);
-                    YZClient yzClient = new DefaultYZClient(auth);
-                    Dictionary<string, object> dict = new System.Collections.Generic.Dictionary<string, object>();
-                    dict.Add("page_no", i);
-                    dict.Add("page_size", 300);
-                    var result = yzClient.Invoke("youzan.item.search", "3.0.0", "POST", dict, null);
-                    var goods = CommonHelper.DeJson<GoodsRoot>(result);
-                    listSkusItem.AddRange(goods.response.items);
+                    for (int i = 1; i <= pageAll; i++)
+                    {
+                        Auth auth = new Token(token);
+                        YZClient yzClient = new DefaultYZClient(auth);
+                        Dictionary<string, object> dict = new System.Collections.Generic.Dictionary<string, object>();
+                        dict.Add("page_no", i);
+                        dict.Add("page_size", 300);
+                        var result = yzClient.Invoke("youzan.item.search", "3.0.0", "POST", dict, null);
+                        var goods = CommonHelper.DeJson<GoodsRoot>(result);
+                        listSkusItem.AddRange(goods.response.items);
+                    }
                 }
+                return listSkusItem;
             }
-            return listSkusItem;
+            catch (Exception e)
+            {
+
+                throw e;
+            }
         }
 
         public string QueryToken()
@@ -77,39 +88,55 @@ namespace DapperService
 
         public OrderResponse GetOrder(OrderRequest Request, string Token)
         {
-            Auth auth = new Token(Token);
-            YZClient yzClient = new DefaultYZClient(auth);
-            Dictionary<string, object> dict = new Dictionary<string, object>();
-            dict.Add("start_update", Request.start_created);
-            dict.Add("end_update", Request.end_created);
-            dict.Add("page_no", Request.page_no);
-            dict.Add("page_size", Request.page_size);
-            dict.Add("status", Request.status);
-            var result = yzClient.Invoke("youzan.trades.sold.get", "4.0.0", "POST", dict, null);
-            return JsonConvert.DeserializeObject<OrderResponse>(result);
+            try
+            {
+                Auth auth = new Token(Token);
+                YZClient yzClient = new DefaultYZClient(auth);
+                Dictionary<string, object> dict = new Dictionary<string, object>();
+                dict.Add("start_update", Request.start_created);
+                dict.Add("end_update", Request.end_created);
+                dict.Add("page_no", Request.page_no);
+                dict.Add("page_size", Request.page_size);
+                dict.Add("status", Request.status);
+                var result = yzClient.Invoke("youzan.trades.sold.get", "4.0.0", "POST", dict, null);
+                return JsonConvert.DeserializeObject<OrderResponse>(result);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
         }
         //有赞是否发货
         public bool GetShipments(string token, string tid)
         {
-            Auth auth = new Token(token);
-            YZClient yzClient = new DefaultYZClient(auth);
-            Dictionary<string, object> dict = new Dictionary<string, object>();
-            dict.Add("tid", tid);
-            var result = yzClient.Invoke("youzan.trade.get", "4.0.0", "GET", dict, null);
-            if (!string.IsNullOrEmpty(result))
+            try
             {
-                YzShipmentsResponse sr = CommonHelper.DeJson<YzShipmentsResponse>(result);
-                if (sr.response != null)
+                Auth auth = new Token(token);
+                YZClient yzClient = new DefaultYZClient(auth);
+                Dictionary<string, object> dict = new Dictionary<string, object>();
+                dict.Add("tid", tid);
+                var result = yzClient.Invoke("youzan.trade.get", "4.0.0", "GET", dict, null);
+                if (!string.IsNullOrEmpty(result))
                 {
-                    if (sr.response.delivery_order != null && sr.response.delivery_order.Count > 0)
+                    YzShipmentsResponse sr = CommonHelper.DeJson<YzShipmentsResponse>(result);
+                    if (sr.response != null)
                     {
-                        return sr.response.delivery_order[0].express_state == 1;
+                        if (sr.response.delivery_order != null && sr.response.delivery_order.Count > 0)
+                        {
+                            return sr.response.delivery_order[0].express_state == 1;
+                        }
+                    }
+                    else
+                    {
+                        return false;
                     }
                 }
-                else
-                {
-                    return false;
-                }
+            }
+            catch (Exception e)
+            {
+
+                throw e;
             }
 
             return false;
@@ -141,13 +168,21 @@ namespace DapperService
 
         public TokenResponse GetToken()
         {
-            IDictionary<string, string> allParams = new Dictionary<string, string>();
-            allParams.Add("client_id", client_id);
-            allParams.Add("client_secret", client_secret);
-            allParams.Add("grant_type", "silent");
-            allParams.Add("kdt_id", kdt_id.ToString());
-            string result = SendRequest("https://open.youzan.com/oauth/token", "POST", allParams, null);
-            return JsonConvert.DeserializeObject<TokenResponse>(result);
+            try
+            {
+                IDictionary<string, string> allParams = new Dictionary<string, string>();
+                allParams.Add("client_id", client_id);
+                allParams.Add("client_secret", client_secret);
+                allParams.Add("grant_type", "silent");
+                allParams.Add("kdt_id", kdt_id.ToString());
+                string result = SendRequest("https://open.youzan.com/oauth/token", "POST", allParams, null);
+                return JsonConvert.DeserializeObject<TokenResponse>(result);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
 
         }
 
@@ -230,8 +265,7 @@ namespace DapperService
             }
             catch (Exception e)
             {
-                return false;
-              
+                throw e;
             }
            return false;
         }
@@ -254,7 +288,7 @@ namespace DapperService
             string GoodsJson = JsonConvert.SerializeObject(ListGoodsItem);
             sb.Add("items", GoodsJson);
             //买家手机号
-            sb.Add("mobile", OrderItem.full_order_info.buyer_info.buyer_phone == null ? OrderItem.full_order_info.address_info.receiver_tel : OrderItem.full_order_info.buyer_info.buyer_phone);
+            sb.Add("mobile", OrderItem.full_order_info.address_info.receiver_tel);
             //创建时间
             sb.Add("order_created", OrderItem.full_order_info.order_info.pay_time);
             //订单号
@@ -269,7 +303,7 @@ namespace DapperService
             sb.Add("tel", OrderItem.full_order_info.address_info.receiver_tel);
             //区
             sb.Add("town", OrderItem.full_order_info.address_info.delivery_district);
-            string ordersJosonStr = HttpHepler.UrlResponseByPost("add_order", sb);
+            string ordersJosonStr = HttpHepler.UrlResponseByPost("add_order", sb, appkey,appsecret);
             if (!string.IsNullOrEmpty(ordersJosonStr))
             {
                 RootResponse rootModel = JsonConvert.DeserializeObject<RootResponse>(ordersJosonStr);
@@ -283,70 +317,86 @@ namespace DapperService
 
         public List<string> GetWaitSendOid(string token)
         {
-            List<string> sourceIds = new List<string>();
-            bool flag = true;
-            int pageNo = 1;
-            while (flag)
+            try
             {
-                OrderRequest or = new OrderRequest()
+                List<string> sourceIds = new List<string>();
+                bool flag = true;
+                int pageNo = 1;
+                while (flag)
                 {
-                    start_created = DateTime.Now.AddMonths(-2),
-                    end_created = DateTime.Now,
-                    page_no = pageNo,
-                    page_size = 100,
-                    status = "WAIT_SELLER_SEND_GOODS"
-                };
-                OrderResponse orders = GetOrder(or, token);
-                if (orders != null)
-                {
-                    if (orders.response.total_results == 0)
+                    OrderRequest or = new OrderRequest()
                     {
-                        break;
-                    }
-
-                    if (orders.response.total_results > 0 && orders.response.total_results < 100)
+                        start_created = DateTime.Now.AddMonths(-2),
+                        end_created = DateTime.Now,
+                        page_no = pageNo,
+                        page_size = 100,
+                        status = "WAIT_SELLER_SEND_GOODS"
+                    };
+                    OrderResponse orders = GetOrder(or, token);
+                    if (orders != null)
                     {
-                        //100条内 循环完退出
-                        flag = false;
-                        foreach (var order in orders.response.full_order_info_list)
+                        if (orders.response.total_results == 0)
                         {
-                            if (order.full_order_info.order_info.status_str == "待发货")
+                            break;
+                        }
+
+                        if (orders.response.total_results > 0 && orders.response.total_results < 100)
+                        {
+                            //100条内 循环完退出
+                            flag = false;
+                            foreach (var order in orders.response.full_order_info_list)
                             {
-                                sourceIds.Add(order.full_order_info.order_info.tid);
+                                if (order.full_order_info.order_info.status_str == "待发货")
+                                {
+                                    sourceIds.Add(order.full_order_info.order_info.tid);
+                                }
                             }
                         }
-                    }
 
-                    if (orders.response.total_results == 100)
-                    {
-                        //100条之后还有数据
-                        foreach (var order in orders.response.full_order_info_list)
+                        if (orders.response.total_results == 100)
                         {
-                            if (order.full_order_info.order_info.status_str == "待发货")
+                            //100条之后还有数据
+                            foreach (var order in orders.response.full_order_info_list)
                             {
-                                sourceIds.Add(order.full_order_info.order_info.tid);
+                                if (order.full_order_info.order_info.status_str == "待发货")
+                                {
+                                    sourceIds.Add(order.full_order_info.order_info.tid);
+                                }
                             }
+                            pageNo++;
                         }
-                        pageNo++;
-                    }
 
+                    }
                 }
-            }
 
-            return sourceIds;
+                return sourceIds;
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
         }
 
         public int GetAllGoodsCount(string token)
         {
-            Auth auth = new Token(token);
-            YZClient yzClient = new DefaultYZClient(auth);
-            Dictionary<string, object> dict = new System.Collections.Generic.Dictionary<string, object>();
-            dict.Add("page_no", 1);
-            dict.Add("page_size", 2);
-            var result = yzClient.Invoke("youzan.item.search", "3.0.0", "POST", dict, null);
-            var goods = CommonHelper.DeJson<GoodsRoot>(result);
-            var count = goods.response.count;
-            return count;
+            try
+            {
+                Auth auth = new Token(token);
+                YZClient yzClient = new DefaultYZClient(auth);
+                Dictionary<string, object> dict = new System.Collections.Generic.Dictionary<string, object>();
+                dict.Add("page_no", 1);
+                dict.Add("page_size", 2);
+                var result = yzClient.Invoke("youzan.item.search", "3.0.0", "POST", dict, null);
+                var goods = CommonHelper.DeJson<GoodsRoot>(result);
+                var count = goods.response.count;
+                return count;
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
         }
     }
 }

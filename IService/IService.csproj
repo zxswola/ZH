@@ -61,6 +61,8 @@
     <Compile Include="IExpressageService.cs" />
     <Compile Include="IHouseAppointmentService.cs" />
     <Compile Include="IHouseService.cs" />
+    <Compile Include="IBbShopService.cs" />
+    <Compile Include="ILinkService.cs" />
     <Compile Include="IOrderService.cs" />
     <Compile Include="IPermissionService.cs" />
     <Compile Include="IRegionService.cs" />

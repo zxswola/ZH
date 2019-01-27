@@ -183,5 +183,27 @@ namespace Common
         {
             return (T)JsonConvert.DeserializeObject<T>(json);
         }
+
+        /// <summary>
+        /// 贝贝店转换MD5获取Sign
+        /// </summary>
+        /// <param name="dict"></param>
+        /// <param name="secret"></param>
+        /// <returns></returns>
+        public static string BbOpera(Dictionary<string, string> dict, string secret)
+        {
+            string str = string.Empty;
+            if (dict.Count > 0)
+            {
+                var dicAsc = dict.OrderBy(d => d.Key);
+                str += secret;
+                foreach (var dic in dicAsc)
+                {
+                    str += dic.Key + dic.Value;
+                }
+                str += secret;
+            }
+            return CalcMD5(str);
+        }
     }
 }

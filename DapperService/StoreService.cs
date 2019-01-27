@@ -11,7 +11,7 @@ using Oracle.ManagedDataAccess.Client;
 
 namespace DapperService
 {
-    public class YzStoreService : IStoreService
+    public class StoreService : IStoreService
     {
         public BasicModel GetBasic(string companyId)
         {
