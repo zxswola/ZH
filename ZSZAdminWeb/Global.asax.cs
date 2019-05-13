@@ -33,7 +33,8 @@ namespace ZSZAdminWeb
 
             var builder = new ContainerBuilder();
             builder.RegisterControllers(typeof(MvcApplication).Assembly).PropertiesAutowired();//把当前 程序集中的 Controller 都注册 //不要忘了.PropertiesAutowired() // 获取所有相关类库的程序集
-            Assembly[] assemblies = new Assembly[] {  Assembly.Load("DapperService") };
+            //Assembly[] assemblies = new Assembly[] { Assembly.Load("DapperService") };
+            Assembly[] assemblies = new Assembly[] { Assembly.Load("Service") };
             builder.RegisterAssemblyTypes(assemblies)
                 .Where(type => !type.IsAbstract && typeof(IServiceSupport).IsAssignableFrom(type))
                 .AsImplementedInterfaces().PropertiesAutowired();
@@ -47,8 +48,8 @@ namespace ZSZAdminWeb
             GlobalFilters.Filters.Add(new ZSZExceptionFilter());
             GlobalFilters.Filters.Add(new JsonNetActionFilter());
             GlobalFilters.Filters.Add(new MyAuthorizeFilter());
-           //BbQuartz();
-           //YzQuartz();
+            //BbQuartz();
+            //YzQuartz();
         }
 
         //void Application_End(object sender, EventArgs e)

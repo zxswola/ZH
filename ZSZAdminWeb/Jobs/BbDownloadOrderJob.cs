@@ -76,7 +76,7 @@ namespace ZSZAdminWeb.Jobs
                                     continue;
                                 }
                                 //orderIds 为ERP系统返回的单号 如EO1812027249,EO1812027250,
-                                string orderIds = bbShopService.AddOrder(order);
+                                string orderIds =  bbShopService.AddOrder(order);
                                 if (!string.IsNullOrEmpty(orderIds))
                                 {
                                     List<string> listorderId = orderIds.Split(',').ToList();

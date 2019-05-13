@@ -45,7 +45,7 @@ namespace ZSZAdminWeb.Controllers
         [CheckPermission("Permission.Add")]
         public ActionResult Add(PermissionAddNewModel model)
         {
-            PermSvc.AddPermission(model.Name,model.Description);
+            var id=PermSvc.AddPermission(model.Name,model.Description);
             //return RedirectToAction("List");
             //todo 
             return Json(new AjaxResult {Status = "ok"});

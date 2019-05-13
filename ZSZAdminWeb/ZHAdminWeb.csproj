@@ -1311,6 +1311,7 @@
     <Content Include="lib\zTree\v3\js\jquery.ztree.exhide-3.5.js" />
     <Content Include="lib\zTree\v3\js\jquery.ztree.exhide-3.5.min.js" />
     <Content Include="lib\zTree\v3\log v3.x.txt" />
+    <Content Include="product-brand.html" />
     <Content Include="QuartzRun.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -1350,14 +1351,18 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminHelper.cs" />
     <Compile Include="App_Start\CheckPermissionAttribute.cs" />
     <Compile Include="App_Start\MyAuthorizeFilter.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\ZSZExceptionFilter.cs" />
     <Compile Include="Controllers\AdminUserController.cs" />
+    <Compile Include="Controllers\HouseController.cs" />
+    <Compile Include="Controllers\LogController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\PermissionController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\SetUpdateController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1379,6 +1384,8 @@
     <Compile Include="Models\AdminUserAddViewModel.cs" />
     <Compile Include="Models\AdminUserEditModel.cs" />
     <Compile Include="Models\AdminUserEditViewModel.cs" />
+    <Compile Include="Models\HouseAddModel.cs" />
+    <Compile Include="Models\HouseAddViewModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\PermissionAddNewModel.cs" />
     <Compile Include="Models\PermissionEditModel.cs" />
@@ -1498,6 +1505,11 @@
     <Content Include="Views\AdminUser\List.cshtml" />
     <Content Include="Views\AdminUser\Edit.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\SetUpdate\Index.cshtml" />
+    <Content Include="Views\Log\List.cshtml" />
+    <Content Include="Views\House\List.cshtml" />
+    <Content Include="Views\House\Add.cshtml" />
+    <Content Include="Views\House\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

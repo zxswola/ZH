@@ -21,6 +21,7 @@ namespace DapperService
         private static string appsecret = System.Configuration.ConfigurationManager.AppSettings["bb_appsecret"];
         private OrderService orderService = new OrderService();
         private static log4net.ILog log = log4net.LogManager.GetLogger(typeof(BbShopService));
+        public ILogService logService = new LogService();
         //调用ZH接口发送增加订单
         public string AddOrder(BbOrder orderItem)
         {
@@ -36,7 +37,7 @@ namespace DapperService
                     {
                         item_id = orderService.QueryBarcode(item.Outer_id),
                         qty = Convert.ToInt32(item.Num),
-                        price = Convert.ToDouble(item.Total_fee)
+                        price = Convert.ToDouble(item.Total_fee/ Convert.ToInt32(item.Num))
                     });
                 }
                 string goodsJson = CommonHelper.ToJson(listGoodsItem);
@@ -57,12 +58,14 @@ namespace DapperService
                     {
                         return rootModel.AddOrderResponse.ERPORDERID;
                     }
-                        log.Error(rootModel.ErrorMessage);
+                    logService.AddLog("贝店订单号:"+ orderItem.Oid+"  收件人信息:"+orderItem.Receiver_name+orderItem.Receiver_phone +"  地址:"+ orderItem.Province + orderItem.City + orderItem.County + orderItem.Address+" 错误信息:"+ rootModel.ErrorMessage.Trim());
+                    log.Error(rootModel.ErrorMessage);
                 }
                 return null;
             }
             catch (Exception e)
             {
+               
                 throw e ;
             }
         }
@@ -287,12 +290,12 @@ namespace DapperService
                                 listItem.AddRange(items.Data);
                             }
                             //还有数据 pageno加1
-                            if (items.Count == pageSize)
+                            if (items.Data.Count == pageSize)
                             {
                                 pageNo++;
                             }
                             //没数据了 退出循环
-                            if (items.Count < pageSize && items.Count > 0)
+                            if (items.Data.Count < pageSize && items.Data.Count > 0)
                             {
                                 flag = false;
                             }

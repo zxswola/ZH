@@ -8,7 +8,7 @@ namespace ZSZAdminWeb.Models
 {
     public class AdminUserEditModel
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [Required]
         [Phone]
@@ -25,6 +25,6 @@ namespace ZSZAdminWeb.Models
         [Required]
         [EmailAddress]
         public string Email { get; set; }
-        public int[] RoleIds { get; set; }
+        public long[] RoleIds { get; set; }
     }
 }

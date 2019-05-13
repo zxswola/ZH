@@ -18,7 +18,7 @@ namespace Service
             Database.SetInitializer<MyDbContext>(null);
         }
 
-       public MyDbContext() : base("name=conStr")
+        public MyDbContext() : base("name=conStr")
         {
             this.Database.Log = (sql) =>
             {
@@ -41,7 +41,7 @@ namespace Service
         public DbSet<CommunityEntity> Communities { get; set; }
         public DbSet<HouseAppointmentEntity> HouseAppointments { get; set; }
         public DbSet<HouseEntity> Houses { get; set; }
-        public DbSet<HousePicEntity> HousePic { get; set; }
+        public DbSet<HousePicEntity> HousePics { get; set; }
         public DbSet<IdNameEntity> IdNames { get; set; }
         public DbSet<PermissionEntity> Permissions { get; set; }
         public DbSet<RegionEntity> Regions { get; set; }

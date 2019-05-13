@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Common;
@@ -19,8 +20,8 @@ namespace ZSZAdminWeb.Controllers
 
         public IAdminUserService adminUserService { get; set; }
         [CheckPermission("AdminUser.List")]
-      
-        public ActionResult List(int pageIndex=1,int pageSize=100)
+
+        public ActionResult List(int pageIndex=1,int pageSize=3)
         {
             var users=adminUserService.GetPageData(pageSize, pageIndex);
             ViewBag.pageIndex = pageIndex;
@@ -40,7 +41,7 @@ namespace ZSZAdminWeb.Controllers
         }
         [CheckPermission("AdminUser.Add")]
         [HttpPost]
-        public ActionResult Add(AdminUserAddModel model)
+        public async  Task<ActionResult> Add(AdminUserAddModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -48,7 +49,7 @@ namespace ZSZAdminWeb.Controllers
                 return Json(new AjaxResult {Status = "error", ErrorMsg = msg});
             }
            int id= adminUserService.AddAdminUser(model.Name, model.UserName, model.Password, model.Email, model.PhoneNum);
-           roleService.AddRoles(id, model.RoleIds);
+            roleService.AddRoles(id, model.RoleIds);
             return Json(new AjaxResult{Status="ok"});
         }
 
@@ -83,7 +84,7 @@ namespace ZSZAdminWeb.Controllers
         }
         [CheckPermission("AdminUser.Edit")]
         [HttpGet]
-        public ActionResult Edit(int id)
+        public ActionResult Edit(long id)
         {
             var user=adminUserService.GetById(id);
             if (user == null)
@@ -103,7 +104,7 @@ namespace ZSZAdminWeb.Controllers
         [HttpPost]
         public ActionResult Edit(AdminUserEditModel model)
         {
-            adminUserService.UpdateAdminUser(model.Id, model.Name, model.UserName, model.Password, model.Email,
+            adminUserService.UpdateAdminUser( model.Id, model.Name, model.UserName, model.Password, model.Email,
                 model.PhoneNum);
             roleService.UpdateRoleIds(model.Id, model.RoleIds);
             return Json(new AjaxResult { Status = "ok" });

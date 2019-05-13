@@ -1,0 +1,142 @@
+﻿@using CommonMvc
+@model List<string>
+@{
+    ViewBag.Title = "设置商品";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form id="formSet" class="form form-horizontal">
+    <div class="row cl">
+        <label class="form-label col-xs-2 col-sm-2">商品货号:</label>
+        <div class="formControls col-xs-8 col-sm-8">
+            <input type="text" name="itemId" class="input-text radius " /><br />
+        </div>
+        <div class="formControls col-xs-2 col-sm-2">
+            <input class=" btn btn-warning radius " type="button" value="取消更新" id="btnOff" />
+            <input class=" btn btn-primary radius " type="button" value="开启更新" id="btnOn" />
+        </div>
+    </div>
+</form>
+<br />
+<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l">
+    <a href="javascript:;" onclick="batch_del()" class="btn btn-secondary radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量开启更新</a> 
+</span> <span class="r">共有数据：<strong>@ViewBag.totalCount</strong> 条</span> </div>
+<form id="formList">
+    <table class="table table-border table-bordered table-bg">
+        <thead>
+        <tr class="text-c">
+            <th width="25"><input type="checkbox" name="" value=""></th>
+            <th width="200">商品货号</th>
+            <th width="100">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var p in Model)
+        {
+            <tr class="text-c">
+                <td><input type="checkbox" value=@p name="selectIds"></td>
+                <td>@p</td>
+                <td>
+                    <a title="开启更新" href="javascript:;" onclick="setOn(this, '@p')" class="ml-5" style="text-decoration: none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+            </tr>
+        }
+
+        </tbody>
+    </table>
+    
+    <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite"> 共 @Model.Count 条</div>
+    <div class="dataTables_paginate paging_simple_numbers">
+        @{
+            var pager = new Pager();
+            pager.MaxPagerCount = 9;
+            pager.PageIndex = ViewBag.pageIndex;
+            pager.PageSize = 30;
+            pager.TotalCount = ViewBag.totalCount;
+            pager.CurrentPageClassName = "paginate_button previous disabled";
+            pager.UrlPattern = "/SetUpdate/Index?pageIndex={pn}";
+        }
+        @Html.Raw(pager.GetPagerHtml())
+    </div>
+</form>
+
+@section FooterScript
+{
+    <script type="text/javascript">
+        function batch_del() {
+            layer.confirm('确认要批量开启更新吗？', function () {
+                var formData = $("#formList").serializeArray();
+                $.ajax({
+                    url: "/SetUpdate/BatchSetOn",
+                    type: "post",
+                    data: formData,
+                    dataType: "json",
+                    success: function (res) {
+                        if (res.status == "ok") {
+                            location.reload();
+                        } else {
+                            alert("fail");
+                        }
+                    }
+                });
+            });
+        }
+
+        function setOn(obj, itemId){
+            layer.confirm('确认要开启更新吗？', function (index) {
+                $.ajax({
+                    url: "/SetUpdate/SetUpdate",
+                    type: "post",
+                    data: { itemId: itemId},
+                    dataType: "json",
+                    success: function(res) {
+                        if (res.status == "ok") {
+                            $(obj).parents("tr").remove();
+                            layer.msg('已开启更新!', { icon: 1, time: 1000 });
+                        } else {
+                            layer.msg('开启更新失败!', { icon: 2, time: 1000 });
+                        }
+                    }
+
+                });
+		
+            });
+        }
+
+        $(function () {
+            $("#btnOn").click(function () {
+                var formData = $("#formSet").serializeArray();
+                $.ajax({
+                    url: "/SetUpdate/SetUpdate",
+                    type: "post",
+                    data: formData,
+                    dataType: "json",
+                    success: function (res) {
+                        if (res.status == "ok") {
+                            layer.msg('设置更新成功!', { icon: 1, time: 1000 });
+                            location.reload();
+                        } else {
+                            layer.msg(res.result.errorMsg, { icon: 2, time: 3000, area: '400px', btn: ['确定'] });
+                        }
+                    }
+                });
+            });
+            $("#btnOff").click(function () {
+                var formData = $("#formSet").serializeArray();
+                $.ajax({
+                    url: "/SetUpdate/SetNoUpdate",
+                    type: "post",
+                    data: formData,
+                    dataType: "json",
+                    success: function (res) {
+                        if (res.status == "ok") {
+                            layer.msg('已取消更新!', { icon: 1, time: 1000 });
+                            location.reload();
+                        } else {
+                            layer.msg(res.errorMsg, { icon: 2, time: 3000, area: '400px', btn: ['确定'] });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

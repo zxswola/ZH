@@ -163,24 +163,46 @@ namespace Service
             }
         }
 
-        int IRoleService.AddNew(string roleName)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public void Update(int roleId, string roleName)
         {
-            throw new NotImplementedException();
+            using (MyDbContext ctx = new MyDbContext())
+            {
+                BaseService<RoleEntity> bs = new BaseService<RoleEntity>(ctx);
+                bool exists = bs.GetAll().Any(r => r.Id != roleId && r.Name == roleName);
+                if (exists)
+                {
+                    throw new ArgumentException("已经存在" + roleName);
+                }
+
+                //RoleEntity role = new RoleEntity();
+                //role.Id = roleId;
+                ////ctx.Entry(role).State = EntityState.Unchanged;
+                //role.Name = roleName;
+                var role = bs.GetById(roleId);
+                role.Name = roleName;
+                ctx.SaveChanges();
+            }
         }
 
         public void MarkDeleted(int id)
         {
-            throw new NotImplementedException();
+            using (MyDbContext ctx = new MyDbContext())
+            {
+                BaseService<RoleEntity> bs = new BaseService<RoleEntity>(ctx);
+                bs.MarkDeleted(id);
+            }
         }
 
         public RoleDTO GetById(int id)
         {
-            throw new NotImplementedException();
+            using (MyDbContext ctx = new MyDbContext())
+            {
+                BaseService<RoleEntity> bs = new BaseService<RoleEntity>(ctx);
+                var role = bs.GetById(id);
+                return role == null ? null : ToDTO(role);
+            }
         }
 
         public void AddRoles(int adminUserId, int[] roleIds)

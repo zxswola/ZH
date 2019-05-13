@@ -55,7 +55,7 @@
             var formData = $("#formList").serializeArray();
             $.ajax({
                 url: "/Permission/BatchDelete",
-                type: "post",
+                type: "post", 
                 data: formData,
                 dataType: "json",
                 success: function (res) {

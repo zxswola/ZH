@@ -11,19 +11,21 @@ using CaptchaGen;
 using CodeCarvings.Piczard;
 using CodeCarvings.Piczard.Filters.Watermarks;
 using Common;
-using DapperService;
+//using DapperService;
 using DTO;
 using IService;
 using log4net;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Spi;
-
+using Service;
 
 namespace Test
 {
     class Program
     {
+        //public static string appkey1 = System.Configuration.ConfigurationManager.AppSettings["bb_appkey"];
+        //public static string appsecret1 = System.Configuration.ConfigurationManager.AppSettings["bb_appsecret"];
         static  void Main(string[] args)
         {
             //            string s = CommonHelper.CreateVerifyCode(4);
@@ -297,9 +299,22 @@ namespace Test
 
 
             //Console.WriteLine("开始同步"+ strattime+"        "+ endtime);
+            //List<string> list = new List<string>();
+            //foreach (var s in list)
+            //{
+            //    Console.WriteLine(s);
+            //}
 
-           int a= DateTime.Now.Month;
-            Console.WriteLine(a);
+            //int a= DateTime.Now.Month;
+            // Console.WriteLine(a);
+
+     
+        // await service.SetNoUpdate("15526328");
+            // SortedDictionary<string, string> sb = new SortedDictionary<string, string>();
+            //sb.Add("item_id", "ARBN241-19");
+            //var res=HttpHepler.UrlResponseByPost("get_stock", sb, appkey1, appsecret1);
+           // AdminUserService service = new AdminUserService();
+           //var count= service.AddAdminUser("test","123098732","123456","123@qq.com",1);
             Console.ReadKey();
 
         }

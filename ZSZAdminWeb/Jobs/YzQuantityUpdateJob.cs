@@ -121,9 +121,10 @@ namespace ZSZAdminWeb.Jobs
                 itemNo = index != -1 ? itemDetail.item_no.Substring(index + 1, itemDetail.item_no.Length - index - 1) : itemDetail.item_no;
                 //获取erp系统中的库存明细
                 var erpStorages = storeService.GetSrorage(listStockCk, itemNo);
+                var erpStoragesHas = erpStorages.Where(e => Convert.ToInt32(e.EndQty) > 0).ToList();
                 //计算库存量
                 int qty = 0;
-                foreach (var storage in erpStorages)
+                foreach (var storage in erpStoragesHas)
                 {
                     int index1 = listStockCk.FindIndex(e => e == storage.StorageID);
                     if (index1 >= 0)
@@ -135,11 +136,18 @@ namespace ZSZAdminWeb.Jobs
                         }
                     }
                 }
-               var goods= new DYGoods { ItemID = item.item_id, Qty = qty, ItemSku = itemDetail.sku_id.ToString() };
-                if (goods.Qty != itemDetail.quantity)
+
+                if (erpStorages.Count > 0)
                 {
-                    shopService.UpdateSrorage(goods, token);
+                    var goods = new DYGoods { ItemID = item.item_id, Qty = qty, ItemSku = itemDetail.sku_id.ToString() };
+                    if (goods.Qty != itemDetail.quantity)
+                    {
+                        log.Debug("ERP同步库存至有赞 :" + goods.ItemSku + "库存数量" + qty + " ============");
+                        shopService.UpdateSrorage(goods, token);
+                    }
                 }
+
+             
 
                 //if (goods.Qty == itemDetail.quantity)
                 //{

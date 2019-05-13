@@ -213,14 +213,19 @@ namespace Service
             throw new NotImplementedException();
         }
 
-        public void UpdateAdminUser(int id, string name, string userName, string password, string email)
+        public void UpdateAdminUser(long id, string name, string userName, string password, string email)
         {
             throw new NotImplementedException();
         }
 
         public AdminUserDTO GetById(int id)
         {
-            throw new NotImplementedException();
+            using (MyDbContext ctx = new MyDbContext())
+            {
+                BaseService<AdminUserEntity> bs = new BaseService<AdminUserEntity>(ctx);
+                var user = bs.GetById(id);
+                return ToDto(user);
+            }
         }
 
         public AdminUserDTO GetByUserName(string userName)
@@ -235,7 +240,18 @@ namespace Service
 
         public bool HasPermission(int adminUserId, string permissionName)
         {
-            throw new NotImplementedException();
+            using (MyDbContext ctx = new MyDbContext())
+            {
+                var user=ctx.Set<AdminUserEntity>().Where(e => e.IsDeleted == false).Include(e=>e.Roles).AsNoTracking().
+                    SingleOrDefault(e=>e.Id==adminUserId);
+                if (user == null)
+                {
+                    throw new ArgumentException("找不到id=" + adminUserId + "的用户");
+                }
+
+               return user.Roles.SelectMany(r => r.Permissions).Any(p => p.Name == permissionName);
+            }
+
         }
 
         public void RecordLoginError(int id)
@@ -248,9 +264,29 @@ namespace Service
             throw new NotImplementedException();
         }
 
-        public void UpdateAdminUser(int id, string name, string userName, string password, string email, string phoneNum)
+        public void UpdateAdminUser(long id, string name, string userName, string password, string email, string phoneNum)
         {
-            throw new NotImplementedException();
+            using (MyDbContext ctx = new MyDbContext())
+            {
+                BaseService<AdminUserEntity> bs = new BaseService<AdminUserEntity>(ctx);
+                var user = bs.GetById(id);
+                if (user == null)
+                {
+                    throw new ArgumentException("找不到id为" + id + "的管路员");
+                }
+                user.Name = name;
+                user.PhoneNum = phoneNum;
+                user.UserName = userName;
+                if (!string.IsNullOrEmpty(password))
+                {
+                    string passwordSalt = user.PasswordSalt;
+                    string passwordHash = CommonHelper.CalcMD5(passwordSalt + password);
+                    user.PasswordHash = passwordHash;
+                }
+                user.Email = email;
+                ctx.SaveChanges();
+
+            }
         }
     }
 }

@@ -4,10 +4,10 @@ namespace IService
 {
     public interface IRoleService:IServiceSupport
     {
-        int AddNew(string roleName);
-        void Update(int roleId, string roleName);
-        void MarkDeleted(int id);
-        RoleDTO GetById(int id);
+        long AddNew(string roleName);
+        void Update(long roleId, string roleName);
+        void MarkDeleted(long id);
+        RoleDTO GetById(long id);
         RoleDTO GetByName(string name);
         RoleDTO[] GetAll();
 
@@ -16,10 +16,10 @@ namespace IService
         /// </summary>
         /// <param name="adminUserId"></param>
         /// <param name="roleIds"></param>
-        void AddRoles(int adminUserId, int[] roleIds);
+        void AddRoles(long adminUserId, long[] roleIds);
         //更新权限,先删除再添加
-        void UpdateRoleIds(int adminUserId, int[] roleIds);
+        void UpdateRoleIds(long adminUserId, long[] roleIds);
         //获取用户角色
-        RoleDTO[] GetByAdminUserId(int adminUserId);
+        RoleDTO[] GetByAdminUserId(long adminUserId);
     }
 }

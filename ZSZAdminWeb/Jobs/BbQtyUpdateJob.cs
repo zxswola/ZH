@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using DapperService;
 using DTO;
@@ -30,7 +31,7 @@ namespace ZSZAdminWeb.Jobs
             }
         }
 
-        public async void QtyUpdate()
+        public async Task QtyUpdate()
         {
             try
             {
@@ -58,7 +59,7 @@ namespace ZSZAdminWeb.Jobs
             }
         }
 
-        public   void GetAndUpdate(BbItemDetail itemDetail)
+        public async Task GetAndUpdate(BbItemDetail itemDetail)
         {
             countUpdate++;
             //List<BbGood> listGood = new List<BbGood>();
@@ -68,7 +69,9 @@ namespace ZSZAdminWeb.Jobs
                 int index = item.Outer_Id.LastIndexOf("|");
                 itemNo = index != -1 ? item.Outer_Id.Substring(index + 1, item.Outer_Id.Length - index - 1): item.Outer_Id;
                 //获取erp系统中的库存明细
-                var erpStorages = storeService.GetSrorage(listStockCk, itemNo);
+                // var erpStorages = storeService.GetSrorage(listStockCk, itemNo);
+                var erpStorages = storeService.GetBbSrorage(listStockCk, itemNo);
+                //var erpStoragesHas = erpStorages.Where(e => Convert.ToInt32(e.EndQty) > 0).ToList();
                 //计算库存量
                 int qty = 0;
 
@@ -93,20 +96,21 @@ namespace ZSZAdminWeb.Jobs
                         //}
                     }
                 }
-
-                BbGood goods = new BbGood
-                {
-                    Iid = itemDetail.Iid,
-                    Sku_Id = item.Id.ToString(),
-                    Outer_Id = item.Outer_Id,
-                    Qty = qty.ToString()
-                };
-                if (qty != item.Num)
-                {
-                    shopService.UpdateItemQty(goods);
-                    //log.Debug("ERP同步库存至贝店 :"+goods.Outer_Id + "库存数量" + qty+" ====="+ DateTime.Now);
-                }
-
+                //if (erpStorages.Count > 0)
+                //{
+                    BbGood goods = new BbGood
+                    {
+                        Iid = itemDetail.Iid,
+                        Sku_Id = item.Id.ToString(),
+                        Outer_Id = item.Outer_Id,
+                        Qty = qty.ToString()
+                    };
+                    if (qty != item.Num)
+                    {
+                       await shopService.UpdateItemQty(goods);
+                        log.Debug("ERP同步库存至贝店 :"+goods.Outer_Id + "库存数量" + qty+" ============");
+                    }
+                //}
             }
            
             //log.Debug("贝店已经库存同步了:" + countUpdate + "条数据");

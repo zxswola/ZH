@@ -26,7 +26,7 @@ namespace IService
         /// <param name="email"></param>
         /// <param name="cityId"></param>
         void UpdateAdminUser(long id,string name, string phoneNum, string password, string email, long? cityId);
-        void UpdateAdminUser(int id, string name, string userName, string password, string email, string phoneNum);
+        void UpdateAdminUser(long id, string name, string userName, string password, string email, string phoneNum);
 
     
         /// <summary>
@@ -39,7 +39,7 @@ namespace IService
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        AdminUserDTO GetById(int id);
+        AdminUserDTO GetById(long id);
         /// <summary>
         /// 根据用户名获取管理员
         /// </summary>
@@ -49,14 +49,15 @@ namespace IService
         //用户名和密码是否正确
         bool CheckLogin(string userName, string password);
         //软删除
-        void MarkDeleted(int adminUserId);
+        void MarkDeleted(long adminUserId);
         //是否有权限
-        bool HasPermission(int adminUserId, string permissionName);
+        bool HasPermission(long adminUserId, string permissionName);
         //记录登录错误
-        void RecordLoginError(int id);
+        void RecordLoginError(long id);
         //充值登录错误信息
-        void ResetLoginError(int id);
+        void ResetLoginError(long id);
 
+        AdminUserDTO GetByPhoneNum(string phoneNum);
 
         AdminUserDTO[] GetPageData(int pageSize, int index);
 

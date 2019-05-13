@@ -19,10 +19,11 @@ namespace DTO
         public int MonthRent { get; set; }
         public long StatusId { get; set; }
         public string StatusName { get; set; }
-        public decimal Area { get; set; }
+        public double Area { get; set; }
         public long DecorateStatusId { get; set; }
         public string DecorateStatusName { get; set; }
         public int TotalFloorCount { get; set; }
+        public int FloorIndex { get; set; }
         public long TypeId { get; set; }
         public string TypeName { get; set; }
         public string Direction { get; set; }

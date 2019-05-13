@@ -1,0 +1,80 @@
+﻿@using CommonMvc
+@model DTO.HouseDTO[]
+@{
+    ViewBag.Title = "房源列表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="pd-20">
+    @*<div class="text-c">
+            <input type="text" class="input-text" style="width:250px" placeholder="输入管理员名称" id="" name="">
+            <button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
+        </div>*@
+    <div class="cl pd-5 bg-1 bk-gray mt-20">
+        <span class="l">
+            <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
+            <a href="javascript:;" onclick="house_add('添加房源', '/House/Add', '1000', '600')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加房源</a>
+        </span>
+        <span class="r">共有数据：<strong>@ViewBag.totalCount</strong> 条</span>
+    </div>
+    <form id="formList">
+        <table class="table table-border table-bordered table-bg">
+            <thead>
+                <tr>
+                    <th scope="col" colspan="9">房源列表</th>
+                </tr>
+                <tr class="text-c">
+                    <th width="25"><input type="checkbox" name="" value=""></th>
+                    <th width="150">区域</th>
+                    <th width="90">小区名</th>
+                    <th width="90">地段</th>
+                    <th width="90">租金</th>
+                    <th width="90">房型</th>
+                    <th width="90">面积</th>
+                    <th width="90">装饰</th>
+                    <th width="100">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var house in Model)
+                {
+                    <tr class="text-c">
+                        <td><input type="checkbox" value="@house.Id" name="selectIds"></td>
+                        <td>@house.RegionName</td>
+                        <td>@house.CommunityName</td>
+                        <td>@house.CommunityTraffic</td>
+                        <td>@house.MonthRent</td>
+                        <td>@house.RoomTypeName</td>
+                        <td>@house.Area</td>
+                        <td>@house.DecorateStatusName</td>
+                        <td class="td-manage">
+                            <a title="编辑" href="javascript:;" onclick="admin_edit('房源编辑', '/House/Edit/@house.Id', '800', '500')" class="ml-5" style="text-decoration: none"><i class="Hui-iconfont">&#xe6df;</i></a>
+                            <a title="删除" href="javascript:;" onclick="admin_del(this, @house.Id)" class="ml-5" style="text-decoration: none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite"> 共 @Model.Length 条</div>
+        <div class="dataTables_paginate paging_simple_numbers">
+            @{
+                var pager = new Pager();
+                pager.MaxPagerCount = 3;
+                pager.PageIndex = ViewBag.pageIndex;
+                pager.PageSize = 3;
+                pager.TotalCount = ViewBag.totalCount;
+                pager.CurrentPageClassName = "paginate_button previous disabled";
+                pager.UrlPattern = "/House/List?pageIndex={pn}";
+            }
+            @Html.Raw(pager.GetPagerHtml())
+        </div>
+    </form>
+</div>
+@section FooterScript{
+    <script type="text/javascript">
+        function house_add(title, url, w, h) {
+            layer_show(title, url, w, h);
+        }
+    </script>
+   
+}

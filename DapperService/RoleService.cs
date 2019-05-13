@@ -24,7 +24,7 @@ namespace DapperService
             dto.Id = role.RoleId;
             return dto;
         }
-        public int AddNew(string roleName)
+        public long AddNew(string roleName)
         {
             using (var con = new OracleConnection(OracleHelper.connectionString))
             {
@@ -44,7 +44,7 @@ namespace DapperService
                 {
 
                     con.Execute(sqlInsert, role,transaction);
-                    var id = con.ExecuteScalar<int>(sql, new { name = roleName },transaction);
+                    var id = con.ExecuteScalar<long>(sql, new { name = roleName },transaction);
                     transaction.Commit();
                     return id;
                 }
@@ -57,7 +57,7 @@ namespace DapperService
             }
         }
 
-        public async void AddRoles(int adminUserId, int[] roleIds)
+        public  void AddRoles(int adminUserId, int[] roleIds)
         {
             using (var con = new OracleConnection(OracleHelper.connectionString))
             {
@@ -75,11 +75,10 @@ namespace DapperService
 
                     foreach (var roleId in roleIds)
                     {
-                       await con.ExecuteAsync(sqlInsert, new {userid = adminUserId, roleid = roleId}, transaction);
+                        con.ExecuteAsync(sqlInsert, new {userid = adminUserId, roleid = roleId}, transaction);
                     }
 
                     transaction.Commit();
-                   
                 }
                 catch (Exception)
                 {
@@ -161,7 +160,7 @@ namespace DapperService
             }
         }
 
-        public async void UpdateRoleIds(int adminUserId, int[] roleIds)
+        public  void UpdateRoleIds(int adminUserId, int[] roleIds)
         {
             using (var con = new OracleConnection(OracleHelper.connectionString))
             {
@@ -181,7 +180,7 @@ namespace DapperService
                     con.Execute(sqlDelete, new {userid = adminUserId}, transaction);
                     foreach (var roleId in roleIds)
                     {
-                        await con.ExecuteAsync(sqlInsert, new { userid = adminUserId, roleid = roleId }, transaction);
+                         con.ExecuteAsync(sqlInsert, new { userid = adminUserId, roleid = roleId }, transaction);
                     }
 
                     transaction.Commit();
@@ -193,6 +192,36 @@ namespace DapperService
                     throw;
                 }
             }
+        }
+
+        public void Update(long roleId, string roleName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MarkDeleted(long id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public RoleDTO GetById(long id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddRoles(long adminUserId, long[] roleIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateRoleIds(long adminUserId, long[] roleIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public RoleDTO[] GetByAdminUserId(long adminUserId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

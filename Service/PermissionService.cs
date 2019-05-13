@@ -119,25 +119,25 @@ namespace Service
             }
         }
 
-        public long AddPermission(string perName, string descript)
-        {
-            using (MyDbContext ctx = new MyDbContext())
-            {
-                BaseService<PermissionEntity> bs = new BaseService<PermissionEntity>(ctx);
-                bool exists= bs.GetAll().Any(p=>p.Name==perName);
-                if (exists)
-                {
-                    throw new ArgumentException("权限已存在"+ perName);
-                }
+        //public long AddPermission(string perName, string descript)
+        //{
+        //    using (MyDbContext ctx = new MyDbContext())
+        //    {
+        //        BaseService<PermissionEntity> bs = new BaseService<PermissionEntity>(ctx);
+        //        bool exists= bs.GetAll().Any(p=>p.Name==perName);
+        //        if (exists)
+        //        {
+        //            throw new ArgumentException("权限已存在"+ perName);
+        //        }
 
-                PermissionEntity permission = new PermissionEntity();
-                permission.Name = perName;
-                permission.Description = descript;
-                ctx.Permissions.Add(permission);
-                ctx.SaveChanges();
-                return permission.Id;
-            }
-        }
+        //        PermissionEntity permission = new PermissionEntity();
+        //        permission.Name = perName;
+        //        permission.Description = descript;
+        //        ctx.Permissions.Add(permission);
+        //        ctx.SaveChanges();
+        //        return permission.Id;
+        //    }
+        //}
 
         public void UpdatePermission(long id, string perName, string descript)
         {
@@ -174,10 +174,10 @@ namespace Service
             }
         }
 
-        int IPermissionService.AddPermission(string perName, string descript)
-        {
-            throw new NotImplementedException();
-        }
+        //int IPermissionService.AddPermission(string perName, string descript)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public void UpdatePermission(int id, string perName, string descript)
         {
@@ -196,17 +196,68 @@ namespace Service
 
         public PermissionDTO[] GetByRoleId(int roleId)
         {
-            throw new NotImplementedException();
+            using (MyDbContext ctx = new MyDbContext())
+            {
+                BaseService<RoleEntity> bs = new BaseService<RoleEntity>(ctx);
+                var role = bs.GetAll().Include(r => r.Permissions).SingleOrDefault(r => r.Id == roleId);
+                if (role == null)
+                {
+                    throw new ArgumentException("不存在角色,ID为" + roleId);
+                }
+
+                return role.Permissions.ToList().Select(p => ToDto(p)).ToArray();
+
+            }
         }
 
         public void AddPermids(int roleId, int[] permIds)
         {
-            throw new NotImplementedException();
+            using (MyDbContext ctx = new MyDbContext())
+            {
+                BaseService<RoleEntity> bs = new BaseService<RoleEntity>(ctx);
+                var role = bs.GetAll().Include(r => r.Permissions).SingleOrDefault(r => r.Id == roleId);
+                if (role == null)
+                {
+                    throw new ArgumentException("不存在角色,ID为" + roleId);
+                }
+
+                //role.Permissions.Clear();
+                BaseService<PermissionEntity> PerBs = new BaseService<PermissionEntity>(ctx);
+                var permissions = PerBs.GetAll().Where(p => permIds.ToList().Contains((int) p.Id)).ToList();
+                foreach (var per in permissions)
+                {
+                    role.Permissions.Add(per);
+                }
+
+                ctx.SaveChanges();
+            }
         }
 
         public void UpdatePermids(int roleId, int[] permIds)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<long> AddPermission(string perName, string descript)
+        {
+        
+            using (MyDbContext ctx = new MyDbContext())
+            {
+                BaseService<PermissionEntity> bs = new BaseService<PermissionEntity>(ctx);
+                bool exists = bs.GetAll().Any(p => p.Name == perName);
+                if (exists)
+                {
+                    throw new ArgumentException("权限已存在" + perName);
+                }
+                PermissionEntity permission = new PermissionEntity
+                {
+                    Name=perName,
+                    Description=descript
+                };
+                ctx.Permissions.Add(permission);
+                await ctx.SaveChangesAsync();
+                return permission.Id;
+            }
         }
     }
 }

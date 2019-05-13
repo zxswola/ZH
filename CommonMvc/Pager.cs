@@ -41,16 +41,34 @@ namespace CommonMvc
         public string GetPagerHtml()
         {
             StringBuilder html = new StringBuilder();
+           // html.Append();
             html.Append("<ul>");
 
             //ToDO：加上上一页、下一页、首页、末页、页面跳转等。
 
             //总页数
+            if (TotalCount == 0)
+            {
+                TotalCount = 1;
+            }
             int pageCount = (int)Math.Ceiling(TotalCount * 1.0 / PageSize);
             //显示出来的页码的起始页码
             int startPageIndex = Math.Max(1, PageIndex - MaxPagerCount / 2);
             //显示出来的页码的结束页码
+            
             int endPageIndex = Math.Min(pageCount, startPageIndex + MaxPagerCount);
+        
+
+            //上一页 
+            int backIndex = startPageIndex;
+            if (PageIndex > startPageIndex)
+            {
+                backIndex = PageIndex - 1;
+            }
+            string backHref = UrlPattern.Replace("{pn}", backIndex.ToString());
+            html.Append("<li><a href='")
+                .Append(backHref).Append("'>")
+                .Append("上一页").Append("</a></li>");
             for (int i = startPageIndex; i <= endPageIndex; i++)
             {
                 //是当前页
@@ -68,7 +86,21 @@ namespace CommonMvc
                 }
             }
 
+            //下一页 
+            int nextIndex = endPageIndex;
+            if (PageIndex < endPageIndex)
+            {
+                nextIndex = PageIndex + 1;
+            }
+            string nextHref = UrlPattern.Replace("{pn}", nextIndex.ToString());
+            html.Append("<li><a href='")
+                .Append(nextHref).Append("'>")
+                .Append("下一页").Append("</a></li>");
+
             html.Append("</ul>");
+         
+
+            //html.Append()
             return html.ToString();
         }
     }

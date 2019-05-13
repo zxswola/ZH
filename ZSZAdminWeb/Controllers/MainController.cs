@@ -53,8 +53,10 @@ namespace ZSZAdminWeb.Controllers
             if (result)
             {
                 //Session中保存当前登录用户Id
+                //Session["LoginUserId"]
+                //    = UserService.GetByUserName(model.UserName).Id;
                 Session["LoginUserId"]
-                    = UserService.GetByUserName(model.UserName).Id;
+                    = UserService.GetByPhoneNum(model.UserName).Id;
                 //给后面检查“当前Session登录的这个用户有没有***的权限”
                 return Json(new AjaxResult { Status = "ok" });
             }

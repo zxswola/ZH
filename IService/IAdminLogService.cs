@@ -1,4 +1,7 @@
-﻿namespace IService
+﻿using System.Threading.Tasks;
+using CommonMvc;
+
+namespace IService
 {
     public interface IAdminLogService:IServiceSupport
     {
@@ -7,6 +10,6 @@
         /// </summary>
         /// <param name="adminUserId"></param>
         /// <param name="message"></param>
-        void AddNew(long adminUserId,string message);
+       void AddNew(long adminUserId,string message);
     }
 }

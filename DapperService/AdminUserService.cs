@@ -218,6 +218,11 @@ namespace DapperService
             throw new NotImplementedException();
         }
 
+        public AdminUserDTO GetByPhoneNum(string phoneNum)
+        {
+            throw new NotImplementedException();
+        }
+
         public AdminUserDTO[] GetPageData(int pageSize, int index)
         {
             using (var con = new OracleConnection(OracleHelper.connectionString))
@@ -235,7 +240,37 @@ namespace DapperService
             }
         }
 
-      
+        public AdminUserDTO GetById(long id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MarkDeleted(long adminUserId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool HasPermission(long adminUserId, string permissionName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RecordLoginError(long id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ResetLoginError(long id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateAdminUser(long id, string name, string userName, string password, string email, string phoneNum)
+        {
+            throw new NotImplementedException();
+        }
+
+
 
 
         //public List<AdminUserEntity> GetAll()

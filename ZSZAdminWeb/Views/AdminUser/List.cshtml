@@ -18,47 +18,48 @@
     <div class="cl pd-5 bg-1 bk-gray mt-20">
         <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> 
             <a href="javascript:;" onclick="admin_add('添加管理员', '/AdminUser/Add', '800', '500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加管理员</a></span>
-        <span class="r">共有数据：<strong>@Model.Length</strong> 条</span>
+        <span class="r">共有数据：<strong>@ViewBag.totalCount</strong> 条</span>
     </div>
     <form id="formList">
         <table class="table table-border table-bordered table-bg">
             <thead>
-            <tr>
-                <th scope="col" colspan="9">员工列表</th>
-            </tr>
-            <tr class="text-c">
-                <th width="25"><input type="checkbox" name="" value=""></th>
-                <th width="150">姓名</th>
-                <th width="40">用户名</th>
-                <th width="90">手机</th>
-                <th width="100">操作</th>
-            </tr>
+                <tr>
+                    <th scope="col" colspan="9">员工列表</th>
+                </tr>
+                <tr class="text-c">
+                    <th width="25"><input type="checkbox" name="" value=""></th>
+                    <th width="150">姓名</th>
+                    <th width="40">用户名</th>
+                    <th width="90">手机</th>
+                    <th width="100">操作</th>
+                </tr>
             </thead>
             <tbody>
-            @foreach (var user in Model)
-            {
-                <tr class="text-c">
-                    <td><input type="checkbox" value="@user.Id" name="selectIds"></td>
-                    <td>@user.Name</td>
-                    <td>@user.UserName</td>
-                    <td>@user.PhoneNum</td>
-                    <td class="td-manage">
-                        <a title="编辑" href="javascript:;" onclick="admin_edit('管理员编辑', '/AdminUser/Edit/@user.Id', '800', '500')" class="ml-5" style="text-decoration: none"><i class="Hui-iconfont">&#xe6df;</i></a> 
-                        <a title="删除" href="javascript:;" onclick="admin_del(this, @user.Id)" class="ml-5" style="text-decoration: none"><i class="Hui-iconfont">&#xe6e2;</i></a>
-                    </td>
-                </tr>
-            }
-           
+                @foreach (var user in Model)
+                {
+                    <tr class="text-c">
+                        <td><input type="checkbox" value="@user.Id" name="selectIds"></td>
+                        <td>@user.Name</td>
+                        <td>@user.UserName</td>
+                        <td>@user.PhoneNum</td>
+                        <td class="td-manage">
+                            <a title="编辑" href="javascript:;" onclick="admin_edit('管理员编辑', '/AdminUser/Edit/@user.Id', '800', '500')" class="ml-5" style="text-decoration: none"><i class="Hui-iconfont">&#xe6df;</i></a>
+                            <a title="删除" href="javascript:;" onclick="admin_del(this, @user.Id)" class="ml-5" style="text-decoration: none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                        </td>
+                    </tr>
+                }
+
             </tbody>
         </table>
+        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite"> 共 @Model.Length 条</div>
         <div class="dataTables_paginate paging_simple_numbers">
             @{
                 var pager = new Pager();
                 pager.MaxPagerCount = 3;
                 pager.PageIndex = ViewBag.pageIndex;
                 pager.PageSize = 3;
-                pager.TotalCount= ViewBag.totalCount;
-                pager.CurrentPageClassName = "paginate_button";
+                pager.TotalCount = ViewBag.totalCount;
+                pager.CurrentPageClassName = "paginate_button previous disabled";
                 pager.UrlPattern = "/AdminUser/List?pageIndex={pn}";
             }
             @Html.Raw(pager.GetPagerHtml())

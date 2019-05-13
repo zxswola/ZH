@@ -27,6 +27,7 @@ namespace DapperService
         private static string TokenFileName = "token.json";
         private static string TokenFilePath = System.AppDomain.CurrentDomain.BaseDirectory + TokenFileName;
         private OrderService orderService = new OrderService();
+        public ILogService logService = new LogService();
         public List<ItemsItem> GetGoods(string token)
         {
             try
@@ -283,7 +284,7 @@ namespace DapperService
             foreach (var item in OrderItem.full_order_info.orders)
             {
                 //取规格ID 
-                ListGoodsItem.Add(new GoodsItem { item_id =orderService.QueryBarcode(item.outer_sku_id) , qty = item.num, price = Convert.ToDouble(item.total_fee) });
+                ListGoodsItem.Add(new GoodsItem { item_id =orderService.QueryBarcode(item.outer_sku_id) , qty = item.num, price = Convert.ToDouble(item.total_fee)/ item.num });
             }
             string GoodsJson = JsonConvert.SerializeObject(ListGoodsItem);
             sb.Add("items", GoodsJson);
@@ -311,6 +312,7 @@ namespace DapperService
                 {
                     return rootModel.AddOrderResponse.ERPORDERID;
                 }
+                logService.AddLog("有赞订单号:" + OrderItem.full_order_info.order_info.tid +"  收件人信息"+ OrderItem.full_order_info.address_info.receiver_name+ OrderItem.full_order_info.address_info.receiver_tel + " 地址:" + OrderItem.full_order_info.address_info.delivery_province + OrderItem.full_order_info.address_info.delivery_city + OrderItem.full_order_info.address_info.delivery_district+ OrderItem.full_order_info.address_info.delivery_address + " 错误信息:" + rootModel.ErrorMessage.Trim());
             }
             return null;
         }

@@ -26,7 +26,7 @@ namespace DapperService
             };
             return dto;
         }
-        public async void AddPermids(int  roleId, int[] permIds)
+        public  void AddPermids(int  roleId, int[] permIds)
         {
             using (var con = new OracleConnection(OracleHelper.connectionString))
             {
@@ -44,7 +44,7 @@ namespace DapperService
 
                     foreach (var permId in permIds)
                     {
-                        await con.ExecuteAsync(sqlInsert, new { roleid = roleId, permid = permId }, transaction);
+                        con.ExecuteAsync(sqlInsert, new { roleid = roleId, permid = permId }, transaction);
                        
                     }
 
@@ -60,7 +60,7 @@ namespace DapperService
             }
         }
 
-        public int AddPermission(string perName, string descript)
+        public async Task<long> AddPermission(string perName, string descript)
         {
             using (var con = new OracleConnection(OracleHelper.connectionString))
             {
@@ -75,7 +75,7 @@ namespace DapperService
                 permission.Name = perName;
                 permission.Description = descript;
                 string sqlInsert = "insert into T_PERMISSION(Name,Description,Isdeleted,Createdatetime) values(:Name,:Description,:Isdeleted,:Createdatetime)";
-                con.Execute(sqlInsert, permission);
+                await con.ExecuteAsync(sqlInsert, permission);
                 return permission.PermId;
 
             }
@@ -174,7 +174,7 @@ namespace DapperService
             }
         }
 
-        public async void UpdatePermids(int roleId, int[] permIds)
+        public  void UpdatePermids(int roleId, int[] permIds)
         {
             using (var con = new OracleConnection(OracleHelper.connectionString))
             {
@@ -193,7 +193,7 @@ namespace DapperService
                     con.Execute(sqlDelete, new {roleid = roleId},transaction);
                     foreach (var permId in permIds)
                     {
-                       await con.ExecuteAsync(sqlInsert, new { roleid = roleId, permid = permId }, transaction);
+                        con.ExecuteAsync(sqlInsert, new { roleid = roleId, permid = permId }, transaction);
                     }
 
                     transaction.Commit();
@@ -223,6 +223,36 @@ namespace DapperService
                 string sqlupdate = "update T_PERMISSION  t set t.name=:name,t.description=:description where t.permid=:permid ";
                 con.Execute(sqlupdate, new { permid = id,name=perName, description=descript });
             }
+        }
+
+        public void UpdatePermission(long id, string perName, string descript)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MarkDelete(long id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PermissionDTO GetById(long id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PermissionDTO[] GetByRoleId(long roleId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddPermids(long roleId, long[] permIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdatePermids(long roleId, long[] permIds)
+        {
+            throw new NotImplementedException();
         }
     }
 }

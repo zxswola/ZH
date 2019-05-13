@@ -37,13 +37,13 @@ namespace ZSZAdminWeb.Controllers
             }
 
             //transactionScope
-            int roleId=roleService.AddNew(model.Name);
+            int roleId=(int)roleService.AddNew(model.Name);
             perService.AddPermids(roleId, model.PermissionIds);
             return Json(new AjaxResult { Status = "ok" });
         }
         [HttpGet]
         [CheckPermission("Role.Edit")]
-        public ActionResult Edit(int id)
+        public ActionResult Edit(long id)
         {
             var role=roleService.GetById(id);
             var rolePerms=perService.GetByRoleId(id);

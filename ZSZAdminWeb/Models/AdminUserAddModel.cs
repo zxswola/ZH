@@ -24,6 +24,6 @@ namespace ZSZAdminWeb.Models
         [EmailAddress]
         public string Email { get; set; }
    
-        public int[] RoleIds { get; set; }
+        public long[] RoleIds { get; set; }
     }
 }

@@ -11,6 +11,6 @@ namespace ZSZAdminWeb.Models
         [Required]
         [StringLength(50)]
         public string Name { get; set; }
-        public int[] PermissionIds { get; set; }
+        public long[] PermissionIds { get; set; }
     }
 }

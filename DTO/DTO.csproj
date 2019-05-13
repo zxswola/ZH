@@ -57,6 +57,7 @@
     <Compile Include="CityDTO.cs" />
     <Compile Include="CommunityDTO.cs" />
     <Compile Include="LinkDTO.cs" />
+    <Compile Include="LogDTO.cs" />
     <Compile Include="YzExpress.cs" />
     <Compile Include="HouseAppointmentDTO.cs" />
     <Compile Include="HouseDTO.cs" />
